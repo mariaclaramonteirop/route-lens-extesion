@@ -1,0 +1,40 @@
+{
+  "name": "routelens",
+  "displayName": "RouteLens",
+  "description": "Visualize, navegue e documente rotas de APIs diretamente no VS Code.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:routelens.routes"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "routelens.routes",
+          "name": "Routes"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "routelens.refreshRoutes",
+        "title": "RouteLens: Refresh Routes"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.5"
+  }
+}
