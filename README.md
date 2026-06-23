@@ -127,6 +127,38 @@ routelens-vscode/
 
 ---
 
+## Ambiente Docker Opcional
+
+O projeto inclui um ambiente Docker opcional para testar a detecção de rotas PHP Slim com uma API de exemplo.
+
+Para subir o exemplo:
+
+```bash
+docker compose up --build
+```
+
+A API ficará disponível em:
+
+```txt
+http://localhost:8080
+```
+
+Rota de teste:
+
+```txt
+GET http://localhost:8080/health
+```
+
+O exemplo fica em:
+
+```txt
+examples/php-slim/
+```
+
+Esse ambiente não é necessário para desenvolver a extensão. Ele serve apenas como apoio para testes, demonstração e evolução do scanner.
+
+---
+
 ## Como Funciona
 
 O fluxo inicial da extensão será:
