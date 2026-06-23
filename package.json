@@ -11,12 +11,29 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:routelens.routes"
+    "onView:routelens.routes",
+    "onView:routelens.routesExplorer"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "routelens",
+          "title": "RouteLens",
+          "icon": "resources/routelens.svg"
+        }
+      ]
+    },
     "views": {
       "explorer": [
+        {
+          "id": "routelens.routesExplorer",
+          "name": "Routes",
+          "when": "workspaceFolderCount > 0"
+        }
+      ],
+      "routelens": [
         {
           "id": "routelens.routes",
           "name": "Routes"

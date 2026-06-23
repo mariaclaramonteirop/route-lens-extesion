@@ -6,6 +6,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider('routelens.routes', routeTreeProvider),
+    vscode.window.registerTreeDataProvider('routelens.routesExplorer', routeTreeProvider),
     vscode.commands.registerCommand('routelens.refreshRoutes', () => {
       routeTreeProvider.refresh();
     }),

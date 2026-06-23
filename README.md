@@ -164,7 +164,9 @@ A configuração **PHP Slim** abre um projeto de exemplo com rotas detectáveis.
 
 ## Como Usar
 
-No painel Explorer do VS Code, a extensão exibe a seção **Routes**.
+No painel Explorer do VS Code e na barra de atividades do VS Code, a extensão exibe a seção **Routes**.
+
+O RouteLens também aparece como um ícone próprio na barra de atividades do VS Code.
 
 Quando rotas PHP Slim forem encontradas, elas aparecerão no formato:
 
