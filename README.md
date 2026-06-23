@@ -119,10 +119,74 @@ routelens-vscode/
 │   ├── markdownGenerator.ts
 │   └── types/
 │       └── Route.ts
+├── examples/
+│   ├── php-slim/
+│   └── php-empty/
 ├── package.json
 ├── tsconfig.json
 ├── README.md
-└── CHANGELOG.md
+├── CHANGELOG.md
+└── LICENSE
+```
+
+---
+
+## Como Executar em Desenvolvimento
+
+Instale as dependências:
+
+```bash
+npm install
+```
+
+Compile a extensão:
+
+```bash
+npm run compile
+```
+
+Para testar no VS Code:
+
+1. Abra este projeto no VS Code;
+2. Acesse **Run and Debug**;
+3. Escolha uma configuração:
+
+```txt
+Run RouteLens Extension - PHP Slim
+Run RouteLens Extension - Empty PHP
+```
+
+4. Pressione `F5`.
+
+A configuração **PHP Slim** abre um projeto de exemplo com rotas detectáveis. A configuração **Empty PHP** abre um projeto sem rotas para validar o estado vazio do painel.
+
+---
+
+## Como Usar
+
+No painel Explorer do VS Code, a extensão exibe a seção **Routes**.
+
+Quando rotas PHP Slim forem encontradas, elas aparecerão no formato:
+
+```txt
+GET /usuarios
+POST /usuarios
+PUT /usuarios/{id}
+PATCH /usuarios/{id}
+DELETE /usuarios/{id}
+```
+
+Ações disponíveis:
+
+* Clique em uma rota para abrir o arquivo diretamente na linha da declaração;
+* Use o menu de contexto para copiar apenas a rota;
+* Use o menu de contexto para copiar método + rota;
+* Use o botão de refresh do painel para executar a detecção novamente.
+
+Se nenhuma rota for encontrada, o painel exibirá:
+
+```txt
+No routes found
 ```
 
 ---
@@ -191,11 +255,11 @@ export interface Route {
 
 ### Versão 0.1 — MVP
 
-* [ ] Detectar rotas PHP Slim;
-* [ ] Exibir rotas no painel lateral;
-* [ ] Navegar até a linha da rota;
-* [ ] Copiar rota;
-* [ ] Copiar método + rota.
+* [x] Detectar rotas PHP Slim;
+* [x] Exibir rotas no painel lateral;
+* [x] Navegar até a linha da rota;
+* [x] Copiar rota;
+* [x] Copiar método + rota.
 
 ### Versão 0.2
 
@@ -260,7 +324,9 @@ Este projeto é voltado para:
 
 ## Status do Projeto
 
-Em planejamento e desenvolvimento inicial.
+MVP inicial funcional para projetos PHP Slim.
+
+Já é possível detectar rotas, exibir no painel lateral, navegar até a linha da declaração e copiar rota ou método + rota.
 
 ---
 
@@ -274,18 +340,7 @@ Projeto criado com foco em aprendizado, portfólio e desenvolvimento de ferramen
 
 ## Licença
 
-Este projeto poderá ser distribuído sob a licença MIT.
-
-```txt
-MIT License
-
-Copyright (c) 2026 Maria Clara Monteiro Pacheco
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files, to deal in the Software
-without restriction, including without limitation the rights to use, copy,
-modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
-```
+Este projeto é distribuído sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE).
 
 ---
 
