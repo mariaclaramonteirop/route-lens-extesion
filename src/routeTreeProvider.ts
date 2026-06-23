@@ -23,20 +23,16 @@ export class RouteTreeProvider implements vscode.TreeDataProvider<RouteTreeItem>
 }
 
 class RouteTreeItem extends vscode.TreeItem {
-  constructor(private readonly route: Route) {
+  constructor(readonly route: Route) {
     super(`${route.method} ${route.path}`, vscode.TreeItemCollapsibleState.None);
 
+    this.contextValue = 'route';
     this.description = route.handler;
     this.tooltip = `${route.method} ${route.path}`;
     this.command = {
-      command: 'vscode.open',
+      command: 'routelens.openRoute',
       title: 'Open Route',
-      arguments: [
-        vscode.Uri.file(route.filePath),
-        {
-          selection: new vscode.Range(route.line - 1, 0, route.line - 1, 0),
-        },
-      ],
+      arguments: [this],
     };
   }
 }

@@ -26,8 +26,46 @@
       {
         "command": "routelens.refreshRoutes",
         "title": "RouteLens: Refresh Routes"
+      },
+      {
+        "command": "routelens.openRoute",
+        "title": "RouteLens: Open Route"
+      },
+      {
+        "command": "routelens.copyRoute",
+        "title": "RouteLens: Copy Route"
+      },
+      {
+        "command": "routelens.copyMethodAndRoute",
+        "title": "RouteLens: Copy Method + Route"
       }
-    ]
+    ],
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "routelens.copyRoute",
+          "when": "view == routelens.routes && viewItem == route",
+          "group": "inline"
+        },
+        {
+          "command": "routelens.copyMethodAndRoute",
+          "when": "view == routelens.routes && viewItem == route",
+          "group": "inline"
+        },
+        {
+          "command": "routelens.openRoute",
+          "when": "view == routelens.routes && viewItem == route",
+          "group": "navigation"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "routelens.refreshRoutes",
+          "when": "view == routelens.routes",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "compile": "tsc -p ./",

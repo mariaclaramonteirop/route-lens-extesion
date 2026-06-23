@@ -4,7 +4,7 @@ import { Route } from './types/Route';
 const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'];
 
 export async function scanRoutes(): Promise<Route[]> {
-  const files = await vscode.workspace.findFiles('**/*.php', '**/vendor/**');
+  const files = await vscode.workspace.findFiles('**/*.php', '**/{vendor,node_modules,.git}/**');
   const routes: Route[] = [];
 
   for (const file of files) {
