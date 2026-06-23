@@ -1,0 +1,11 @@
+services:
+  php-slim-example:
+    build:
+      context: ./examples/php-slim
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./examples/php-slim:/app
+      - /app/vendor
+    working_dir: /app
+    command: php -S 0.0.0.0:8080 -t public

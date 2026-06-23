@@ -1,0 +1,15 @@
+{
+  "name": "routelens/php-slim-example",
+  "description": "Projeto PHP Slim de exemplo para testar a extensão RouteLens.",
+  "type": "project",
+  "require": {
+    "php": "^8.3",
+    "slim/psr7": "^1.7",
+    "slim/slim": "^4.14"
+  },
+  "autoload": {
+    "psr-4": {
+      "RouteLensExample\\": "src/"
+    }
+  }
+}
