@@ -49,6 +49,16 @@
         }
       ]
     },
+    "configuration": {
+      "title": "RouteLens",
+      "properties": {
+        "routelens.baseUrl": {
+          "type": "string",
+          "default": "http://localhost:8080",
+          "description": "Base URL used when copying full route URLs and generating API_ROUTES.md."
+        }
+      }
+    },
     "commands": [
       {
         "command": "routelens.refreshRoutes",
@@ -65,6 +75,10 @@
       {
         "command": "routelens.copyMethodAndRoute",
         "title": "RouteLens: Copy Method + Route"
+      },
+      {
+        "command": "routelens.copyFullUrl",
+        "title": "RouteLens: Copy Full URL"
       },
       {
         "command": "routelens.generateApiMarkdown",
@@ -85,9 +99,14 @@
           "group": "inline"
         },
         {
-          "command": "routelens.openRoute",
+          "command": "routelens.copyFullUrl",
           "when": "viewItem == route",
           "group": "navigation"
+        },
+        {
+          "command": "routelens.openRoute",
+          "when": "viewItem == route",
+          "group": "navigation@2"
         }
       ],
       "view/title": [

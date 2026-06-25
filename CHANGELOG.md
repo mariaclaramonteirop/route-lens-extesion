@@ -8,6 +8,8 @@ Todas as alterações relevantes deste projeto serão documentadas aqui.
 - Uso do caminho relativo quando arquivos diferentes possuem o mesmo nome.
 - Geração do arquivo `API_ROUTES.md`, organizado pelo arquivo de origem.
 - Confirmação antes de sobrescrever uma documentação existente.
+- Configuração `routelens.baseUrl`, com padrão `http://localhost:8080`.
+- Comando para copiar a URL completa de uma rota.
 
 ## 0.1.0
 

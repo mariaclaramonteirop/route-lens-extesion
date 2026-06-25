@@ -191,6 +191,7 @@ Ações disponíveis:
 * Clique em uma rota para abrir o arquivo diretamente na linha da declaração;
 * Use o menu de contexto para copiar apenas a rota;
 * Use o menu de contexto para copiar método + rota;
+* Use **Copy Full URL** para copiar a rota com a base URL configurada;
 * Use o botão de refresh do painel para executar a detecção novamente;
 * Use o botão **Generate API_ROUTES.md** para documentar as rotas encontradas.
 
@@ -217,6 +218,20 @@ workspace e organiza os endpoints pelo arquivo PHP de origem:
 ```
 
 Se o arquivo já existir, a extensão solicita confirmação antes de sobrescrevê-lo.
+
+### Configurar a base URL
+
+A configuração `routelens.baseUrl` define a URL usada pelo comando
+**Copy Full URL** e pelo arquivo `API_ROUTES.md`.
+
+O valor padrão é:
+
+```txt
+http://localhost:8080
+```
+
+Ela pode ser alterada nas configurações do VS Code, pesquisando por
+`RouteLens: Base Url`.
 
 ---
 
@@ -295,7 +310,7 @@ export interface Route {
 * [x] Gerar arquivo `API_ROUTES.md`;
 * [x] Agrupar rotas por arquivo;
 * [ ] Agrupar rotas por recurso;
-* [ ] Permitir configuração de base URL;
+* [x] Permitir configuração de base URL;
 * [ ] Melhorar a exibição visual no painel.
 
 ### Versão 0.3

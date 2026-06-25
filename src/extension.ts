@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { generateMarkdown } from './markdownGenerator';
 import { scanRoutes } from './routeScanner';
 import { RouteTreeProvider } from './routeTreeProvider';
+import { buildRouteUrl, DEFAULT_BASE_URL } from './urlBuilder';
 
 export function activate(context: vscode.ExtensionContext) {
   const routeTreeProvider = new RouteTreeProvider();
@@ -48,11 +49,23 @@ export function activate(context: vscode.ExtensionContext) {
       await vscode.env.clipboard.writeText(value);
       vscode.window.showInformationMessage(`Route copied: ${value}`);
     }),
+    vscode.commands.registerCommand('routelens.copyFullUrl', async (item) => {
+      const route = item?.route;
+
+      if (!route) {
+        return;
+      }
+
+      const value = buildRouteUrl(getBaseUrl(), route.path);
+
+      await vscode.env.clipboard.writeText(value);
+      vscode.window.showInformationMessage(`URL copied: ${value}`);
+    }),
     vscode.commands.registerCommand('routelens.generateApiMarkdown', async () => {
       const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
 
       if (!workspaceFolder) {
-        vscode.window.showWarningMessage('Open a workspace folder to generate API.md.');
+        vscode.window.showWarningMessage('Open a workspace folder to generate API_ROUTES.md.');
         return;
       }
 
@@ -79,7 +92,8 @@ export function activate(context: vscode.ExtensionContext) {
 
       const markdown = generateMarkdown(
         routes,
-        (filePath) => vscode.workspace.asRelativePath(filePath, false)
+        (filePath) => vscode.workspace.asRelativePath(filePath, false),
+        getBaseUrl()
       );
 
       await vscode.workspace.fs.writeFile(targetUri, Buffer.from(markdown, 'utf8'));
@@ -101,4 +115,11 @@ async function fileExists(uri: vscode.Uri): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+function getBaseUrl(): string {
+  return vscode.workspace
+    .getConfiguration('routelens')
+    .get<string>('baseUrl', DEFAULT_BASE_URL)
+    .trim() || DEFAULT_BASE_URL;
 }
