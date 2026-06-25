@@ -1,0 +1,11 @@
+.github/**
+.vscode/**
+examples/**
+src/**
+.gitignore
+checklist_version.md
+doc.md
+docker-compose.yml
+tsconfig.json
+versions.md
+**/*.map
