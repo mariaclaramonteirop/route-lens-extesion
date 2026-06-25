@@ -2,6 +2,14 @@
 
 Todas as alterações relevantes deste projeto serão documentadas aqui.
 
+## Em desenvolvimento
+
+- Geração do arquivo `requests.http` com base nas rotas detectadas.
+- Variáveis para parâmetros de path e exemplos de corpo JSON.
+- Roadmap atualizado com geração de OpenAPI e visualização no Swagger UI.
+- Geração inicial de especificações OpenAPI 3.1 em `openapi.yaml`.
+- Prévia interativa para visualizar e executar endpoints dentro do VS Code.
+
 ## 0.2.0
 
 - Agrupamento das rotas pelo arquivo PHP em que foram declaradas.

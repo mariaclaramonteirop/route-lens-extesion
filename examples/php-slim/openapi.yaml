@@ -1,0 +1,121 @@
+openapi: 3.1.0
+info:
+  title: RouteLens API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  '/health':
+    get:
+      operationId: get_health
+      tags:
+        - 'health'
+      summary: 'GET /health'
+      responses:
+        '200':
+          description: Successful response
+  '/produtos':
+    get:
+      operationId: get_produtos
+      tags:
+        - 'produtos'
+      summary: 'GET /produtos'
+      responses:
+        '200':
+          description: Successful response
+    post:
+      operationId: post_produtos
+      tags:
+        - 'produtos'
+      summary: 'POST /produtos'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful response
+  '/usuarios':
+    get:
+      operationId: get_usuarios
+      tags:
+        - 'usuarios'
+      summary: 'GET /usuarios'
+      responses:
+        '200':
+          description: Successful response
+    post:
+      operationId: post_usuarios
+      tags:
+        - 'usuarios'
+      summary: 'POST /usuarios'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful response
+  '/usuarios/{id}':
+    delete:
+      operationId: delete_usuarios_id
+      tags:
+        - 'usuarios'
+      summary: 'DELETE /usuarios/{id}'
+      parameters:
+        - name: 'id'
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    patch:
+      operationId: patch_usuarios_id
+      tags:
+        - 'usuarios'
+      summary: 'PATCH /usuarios/{id}'
+      parameters:
+        - name: 'id'
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful response
+    put:
+      operationId: put_usuarios_id
+      tags:
+        - 'usuarios'
+      summary: 'PUT /usuarios/{id}'
+      parameters:
+        - name: 'id'
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful response

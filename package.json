@@ -55,7 +55,7 @@
         "routelens.baseUrl": {
           "type": "string",
           "default": "http://localhost:8080",
-          "description": "Base URL used when copying full route URLs and generating API_ROUTES.md."
+          "description": "Base URL used by full URLs, generated documentation, HTTP requests and the API preview."
         },
         "routelens.groupByResource": {
           "type": "boolean",
@@ -89,6 +89,21 @@
         "command": "routelens.generateApiMarkdown",
         "title": "RouteLens: Generate API_ROUTES.md",
         "icon": "$(notebook)"
+      },
+      {
+        "command": "routelens.generateHttpRequests",
+        "title": "RouteLens: Generate requests.http",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "routelens.generateOpenApi",
+        "title": "RouteLens: Generate openapi.yaml",
+        "icon": "$(json)"
+      },
+      {
+        "command": "routelens.openSwaggerPreview",
+        "title": "RouteLens: Open API Preview",
+        "icon": "$(preview)"
       }
     ],
     "menus": {
@@ -122,6 +137,21 @@
         },
         {
           "command": "routelens.generateApiMarkdown",
+          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "routelens.generateHttpRequests",
+          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "routelens.generateOpenApi",
+          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "routelens.openSwaggerPreview",
           "when": "view == routelens.routes || view == routelens.routesExplorer",
           "group": "navigation"
         }

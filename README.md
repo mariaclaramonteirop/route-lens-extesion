@@ -203,7 +203,10 @@ Ações disponíveis:
 * Use o menu de contexto para copiar método + rota;
 * Use **Copy Full URL** para copiar a rota com a base URL configurada;
 * Use o botão de refresh do painel para executar a detecção novamente;
-* Use o botão **Generate API_ROUTES.md** para documentar as rotas encontradas.
+* Use o botão **Generate API_ROUTES.md** para documentar as rotas encontradas;
+* Use o botão **Generate requests.http** para criar requisições executáveis;
+* Use **Generate openapi.yaml** para exportar uma especificação OpenAPI;
+* Use **Open API Preview** para visualizar e testar as rotas dentro do VS Code.
 
 Se nenhuma rota for encontrada, o painel exibirá:
 
@@ -244,6 +247,50 @@ http://localhost:8080
 
 Ela pode ser alterada nas configurações do VS Code, pesquisando por
 `RouteLens: Base Url`.
+
+---
+
+### Gerar requisições HTTP
+
+O comando **RouteLens: Generate requests.http** cria um arquivo compatível com
+extensões como REST Client. Ele utiliza a `baseUrl`, cria variáveis para
+parâmetros de rota e adiciona um corpo JSON básico nos métodos que aceitam body.
+
+```http
+@baseUrl = http://localhost:8080
+@id = 1
+
+### GET /usuarios
+GET {{baseUrl}}/usuarios
+
+### PUT /usuarios/{id}
+PUT {{baseUrl}}/usuarios/{{id}}
+Content-Type: application/json
+
+{
+  "example": "value"
+}
+```
+
+---
+
+### OpenAPI e prévia interativa
+
+O comando **RouteLens: Generate openapi.yaml** gera uma especificação OpenAPI
+3.1 com:
+
+* `servers` baseado na configuração `routelens.baseUrl`;
+* tags criadas a partir dos recursos;
+* parâmetros de path, como `{id}`;
+* request body JSON básico para `POST`, `PUT` e `PATCH`;
+* resposta padrão `200`.
+
+O comando **RouteLens: Open API Preview** abre uma interface interna inspirada
+no Swagger UI. Nela é possível expandir os endpoints, preencher parâmetros e
+corpos JSON e executar requisições sem sair do VS Code.
+
+Essa prévia é um protótipo inicial. A geração automática ainda não detecta
+schemas, autenticação, parâmetros de query ou códigos de resposta reais.
 
 ---
 
@@ -330,9 +377,14 @@ export interface Route {
 ### Versão 0.3
 
 * [ ] Suporte a Express.js;
-* [ ] Geração de arquivos `.http`;
+* [x] Geração de arquivos `.http`;
 * [ ] Detecção do controller associado;
-* [ ] Melhor tratamento para rotas em grupos.
+* [ ] Melhor tratamento para rotas em grupos;
+* [x] Gerar especificação básica em `openapi.yaml`;
+* [x] Usar a `baseUrl` na seção `servers`;
+* [x] Criar tags por recurso;
+* [x] Converter `{id}` em parâmetro de path;
+* [x] Permitir visualização e execução em uma prévia interna.
 
 ### Versão 1.0
 
@@ -348,7 +400,11 @@ export interface Route {
 Algumas ideias para evolução do projeto:
 
 * Suporte a múltiplos frameworks;
-* Exportação para OpenAPI;
+* Exportação para OpenAPI em YAML e JSON;
+* Visualização e teste de endpoints com Swagger UI;
+* Detecção de request bodies, parâmetros de query e headers;
+* Geração de schemas, respostas e códigos HTTP;
+* Documentação de autenticação e requisitos de segurança;
 * Integração com Postman;
 * Geração de arquivos `.http`;
 * Detecção de controllers;

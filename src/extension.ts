@@ -1,7 +1,10 @@
 import * as vscode from 'vscode';
+import { generateHttpRequests } from './httpGenerator';
 import { generateMarkdown } from './markdownGenerator';
+import { generateOpenApiYaml } from './openApiGenerator';
 import { scanRoutes } from './routeScanner';
 import { RouteTreeProvider } from './routeTreeProvider';
+import { openSwaggerPreview } from './swaggerPreview';
 import { buildRouteUrl, DEFAULT_BASE_URL } from './urlBuilder';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -107,6 +110,65 @@ export function activate(context: vscode.ExtensionContext) {
 
       await vscode.window.showTextDocument(document);
       vscode.window.showInformationMessage('API_ROUTES.md generated successfully.');
+    }),
+    vscode.commands.registerCommand('routelens.generateHttpRequests', async () => {
+      const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+
+      if (!workspaceFolder) {
+        vscode.window.showWarningMessage('Open a workspace folder to generate requests.http.');
+        return;
+      }
+
+      const routes = await scanRoutes();
+
+      if (routes.length === 0) {
+        vscode.window.showWarningMessage('No PHP Slim routes were found to generate requests.');
+        return;
+      }
+
+      const targetUri = vscode.Uri.joinPath(workspaceFolder.uri, 'requests.http');
+
+      if (await fileExists(targetUri)) {
+        const overwrite = await vscode.window.showWarningMessage(
+          'requests.http already exists. Do you want to overwrite it?',
+          { modal: true },
+          'Overwrite'
+        );
+
+        if (overwrite !== 'Overwrite') {
+          return;
+        }
+      }
+
+      const requests = generateHttpRequests(routes, getBaseUrl());
+
+      await vscode.workspace.fs.writeFile(targetUri, Buffer.from(requests, 'utf8'));
+
+      const document = await vscode.workspace.openTextDocument(targetUri);
+
+      await vscode.window.showTextDocument(document);
+      vscode.window.showInformationMessage('requests.http generated successfully.');
+    }),
+    vscode.commands.registerCommand('routelens.generateOpenApi', async () => {
+      const generated = await generateWorkspaceFile(
+        'openapi.yaml',
+        'No PHP Slim routes were found to generate OpenAPI.',
+        (routes) => generateOpenApiYaml(routes, getBaseUrl())
+      );
+
+      if (generated) {
+        vscode.window.showInformationMessage('openapi.yaml generated successfully.');
+      }
+    }),
+    vscode.commands.registerCommand('routelens.openSwaggerPreview', async () => {
+      const routes = await scanRoutes();
+
+      if (routes.length === 0) {
+        vscode.window.showWarningMessage('No PHP Slim routes were found to preview.');
+        return;
+      }
+
+      openSwaggerPreview(routes, getBaseUrl());
     })
   );
 }
@@ -127,4 +189,48 @@ function getBaseUrl(): string {
     .getConfiguration('routelens')
     .get<string>('baseUrl', DEFAULT_BASE_URL)
     .trim() || DEFAULT_BASE_URL;
+}
+
+async function generateWorkspaceFile(
+  fileName: string,
+  emptyMessage: string,
+  generateContent: (routes: Awaited<ReturnType<typeof scanRoutes>>) => string
+): Promise<boolean> {
+  const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+
+  if (!workspaceFolder) {
+    vscode.window.showWarningMessage(`Open a workspace folder to generate ${fileName}.`);
+    return false;
+  }
+
+  const routes = await scanRoutes();
+
+  if (routes.length === 0) {
+    vscode.window.showWarningMessage(emptyMessage);
+    return false;
+  }
+
+  const targetUri = vscode.Uri.joinPath(workspaceFolder.uri, fileName);
+
+  if (await fileExists(targetUri)) {
+    const overwrite = await vscode.window.showWarningMessage(
+      `${fileName} already exists. Do you want to overwrite it?`,
+      { modal: true },
+      'Overwrite'
+    );
+
+    if (overwrite !== 'Overwrite') {
+      return false;
+    }
+  }
+
+  await vscode.workspace.fs.writeFile(
+    targetUri,
+    Buffer.from(generateContent(routes), 'utf8')
+  );
+
+  const document = await vscode.workspace.openTextDocument(targetUri);
+
+  await vscode.window.showTextDocument(document);
+  return true;
 }
