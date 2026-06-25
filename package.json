@@ -65,6 +65,11 @@
       {
         "command": "routelens.copyMethodAndRoute",
         "title": "RouteLens: Copy Method + Route"
+      },
+      {
+        "command": "routelens.generateApiMarkdown",
+        "title": "RouteLens: Generate API_ROUTES.md",
+        "icon": "$(notebook)"
       }
     ],
     "menus": {
@@ -90,6 +95,11 @@
           "command": "routelens.refreshRoutes",
           "when": "view == routelens.routes || view == routelens.routesExplorer",
           "group": "navigation"
+        },
+        {
+          "command": "routelens.generateApiMarkdown",
+          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "group": "navigation"
         }
       ]
     }
@@ -100,6 +110,7 @@
     "vscode:prepublish": "npm run compile"
   },
   "devDependencies": {
+    "@types/node": "^20.19.43",
     "@types/vscode": "^1.90.0",
     "typescript": "^5.4.5"
   }

@@ -6,6 +6,8 @@ Todas as alterações relevantes deste projeto serão documentadas aqui.
 
 - Agrupamento das rotas pelo arquivo PHP em que foram declaradas.
 - Uso do caminho relativo quando arquivos diferentes possuem o mesmo nome.
+- Geração do arquivo `API_ROUTES.md`, organizado pelo arquivo de origem.
+- Confirmação antes de sobrescrever uma documentação existente.
 
 ## 0.1.0
 

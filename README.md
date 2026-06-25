@@ -18,7 +18,7 @@ Com ele, o desenvolvedor pode:
 * identificar o método HTTP de cada rota;
 * navegar diretamente até o arquivo onde a rota foi declarada;
 * copiar rotas para testes;
-* gerar documentação técnica em Markdown em versões futuras.
+* gerar documentação técnica em Markdown.
 
 ---
 
@@ -191,13 +191,32 @@ Ações disponíveis:
 * Clique em uma rota para abrir o arquivo diretamente na linha da declaração;
 * Use o menu de contexto para copiar apenas a rota;
 * Use o menu de contexto para copiar método + rota;
-* Use o botão de refresh do painel para executar a detecção novamente.
+* Use o botão de refresh do painel para executar a detecção novamente;
+* Use o botão **Generate API_ROUTES.md** para documentar as rotas encontradas.
 
 Se nenhuma rota for encontrada, o painel exibirá:
 
 ```txt
 No routes found
 ```
+
+### Gerar documentação
+
+O comando **RouteLens: Generate API_ROUTES.md** cria o arquivo `API_ROUTES.md` na raiz do
+workspace e organiza os endpoints pelo arquivo PHP de origem:
+
+```md
+# API Routes
+
+## public/routes.php
+
+### GET `/usuarios`
+
+- Handler: `UsuarioController::class . ':listar'`
+- Source: line 3
+```
+
+Se o arquivo já existir, a extensão solicita confirmação antes de sobrescrevê-lo.
 
 ---
 
@@ -273,7 +292,7 @@ export interface Route {
 
 ### Versão 0.2
 
-* [ ] Gerar arquivo `API.md`;
+* [x] Gerar arquivo `API_ROUTES.md`;
 * [x] Agrupar rotas por arquivo;
 * [ ] Agrupar rotas por recurso;
 * [ ] Permitir configuração de base URL;
