@@ -2,7 +2,7 @@
 
 Todas as alterações relevantes deste projeto serão documentadas aqui.
 
-## Em desenvolvimento
+## 0.2.0
 
 - Agrupamento das rotas pelo arquivo PHP em que foram declaradas.
 - Uso do caminho relativo quando arquivos diferentes possuem o mesmo nome.
