@@ -2,6 +2,8 @@
 
 **RouteLens** é uma extensão para Visual Studio Code desenvolvida para ajudar desenvolvedores back-end a visualizar, navegar, copiar e documentar rotas de APIs REST diretamente dentro do editor.
 
+Versão atual: **0.2.0**
+
 A extensão identifica automaticamente rotas declaradas no projeto e as organiza em um painel lateral interativo, facilitando a manutenção e compreensão da estrutura da API.
 
 ---
@@ -26,7 +28,7 @@ Com ele, o desenvolvedor pode:
 
 O objetivo do **RouteLens** é facilitar a vida de desenvolvedores back-end durante o desenvolvimento, manutenção e documentação de APIs REST.
 
-A primeira versão da extensão terá foco em projetos desenvolvidos com **PHP Slim**, framework utilizado em APIs simples, organizadas e performáticas.
+A extensão atualmente oferece suporte a projetos desenvolvidos com **PHP Slim**, framework utilizado em APIs simples, organizadas e performáticas.
 
 Futuramente, o projeto poderá evoluir para oferecer suporte a outros frameworks, como:
 
@@ -36,9 +38,9 @@ Futuramente, o projeto poderá evoluir para oferecer suporte a outros frameworks
 
 ---
 
-## Funcionalidades do MVP
+## Funcionalidades
 
-A versão inicial do RouteLens terá como foco as seguintes funcionalidades:
+Na versão `0.2.0`, o RouteLens oferece:
 
 * Detecção automática de rotas em projetos PHP Slim;
 * Identificação dos métodos HTTP:
@@ -52,13 +54,16 @@ A versão inicial do RouteLens terá como foco as seguintes funcionalidades:
 * Navegação até o arquivo e linha onde a rota foi declarada;
 * Opção para copiar apenas a rota;
 * Opção para copiar método + rota;
+* Opção para copiar a URL completa com uma base URL configurável;
+* Agrupamento das rotas por arquivo e recurso;
+* Geração automática do arquivo `API_ROUTES.md`;
 * Organização visual dos endpoints encontrados.
 
 ---
 
 ## Exemplo de Detecção
 
-A extensão será capaz de identificar rotas declaradas no formato:
+A extensão identifica rotas declaradas no formato:
 
 ```php
 $app->get('/usuarios', UsuarioController::class . ':listar');
@@ -98,13 +103,13 @@ Produtos
 
 ## Tecnologias Utilizadas
 
-O projeto será desenvolvido utilizando:
+O projeto é desenvolvido utilizando:
 
 * TypeScript;
 * Node.js;
 * VS Code Extension API;
 * Regex para detecção inicial das rotas;
-* Markdown para geração futura de documentação.
+* Markdown para geração de documentação.
 
 ---
 
@@ -276,7 +281,7 @@ Esse ambiente não é necessário para desenvolver a extensão. Ele serve apenas
 
 ## Como Funciona
 
-O fluxo inicial da extensão será:
+O fluxo da extensão é:
 
 1. O usuário abre um projeto no VS Code;
 2. A extensão verifica os arquivos do workspace;
@@ -284,7 +289,8 @@ O fluxo inicial da extensão será:
 4. As rotas encontradas são transformadas em objetos internos;
 5. O painel lateral exibe os endpoints detectados;
 6. O usuário pode clicar em uma rota para abrir o arquivo correspondente;
-7. O usuário pode copiar a rota ou método + rota pelo menu de contexto.
+7. O usuário pode copiar a rota, método + rota ou URL completa pelo menu de contexto;
+8. O usuário pode gerar o arquivo `API_ROUTES.md` na raiz do workspace.
 
 ---
 
@@ -297,6 +303,7 @@ export interface Route {
   filePath: string;
   line: number;
   handler?: string;
+  resource?: string;
 }
 ```
 
@@ -318,7 +325,7 @@ export interface Route {
 * [x] Agrupar rotas por arquivo;
 * [x] Agrupar rotas por recurso;
 * [x] Permitir configuração de base URL;
-* [ ] Melhorar a exibição visual no painel.
+* [x] Melhorar a exibição visual no painel.
 
 ### Versão 0.3
 
@@ -341,7 +348,6 @@ export interface Route {
 Algumas ideias para evolução do projeto:
 
 * Suporte a múltiplos frameworks;
-* Geração automática de documentação Markdown;
 * Exportação para OpenAPI;
 * Integração com Postman;
 * Geração de arquivos `.http`;
@@ -349,7 +355,7 @@ Algumas ideias para evolução do projeto:
 * Detecção de middlewares;
 * Filtro por método HTTP;
 * Busca por nome da rota;
-* Configuração personalizada de base URL.
+* Suporte a múltiplas pastas no mesmo workspace.
 
 ---
 
@@ -376,9 +382,9 @@ Este projeto é voltado para:
 
 ## Status do Projeto
 
-MVP inicial funcional para projetos PHP Slim.
+Versão **0.2.0** lançada para projetos PHP Slim.
 
-Já é possível detectar rotas, exibir no painel lateral, navegar até a linha da declaração e copiar rota ou método + rota.
+Já é possível detectar e organizar rotas por arquivo e recurso, navegar até a declaração, copiar URLs completas e gerar documentação em `API_ROUTES.md`.
 
 ---
 
