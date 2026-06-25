@@ -6,7 +6,9 @@ Base URL: `http://localhost:8080`
 
 ## public/index.php
 
-### GET `/health`
+### health
+
+#### GET `/health`
 
 - URL: `http://localhost:8080/health`
 - Handler: `function (Request $request, Response $response`
@@ -14,45 +16,48 @@ Base URL: `http://localhost:8080`
 
 ## public/routes.php
 
-### GET `/usuarios`
+### produtos
 
-- URL: `http://localhost:8080/usuarios`
-- Handler: `UsuarioController::class . ':listar'`
-- Source: line 3
-
-### POST `/usuarios`
-
-- URL: `http://localhost:8080/usuarios`
-- Handler: `UsuarioController::class . ':criar'`
-- Source: line 4
-
-### PUT `/usuarios/{id}`
-
-- URL: `http://localhost:8080/usuarios/{id}`
-- Handler: `UsuarioController::class . ':atualizar'`
-- Source: line 5
-
-### PATCH `/usuarios/{id}`
-
-- URL: `http://localhost:8080/usuarios/{id}`
-- Handler: `UsuarioController::class . ':atualizarParcial'`
-- Source: line 6
-
-### DELETE `/usuarios/{id}`
-
-- URL: `http://localhost:8080/usuarios/{id}`
-- Handler: `UsuarioController::class . ':deletar'`
-- Source: line 7
-
-### GET `/produtos`
+#### GET `/produtos`
 
 - URL: `http://localhost:8080/produtos`
 - Handler: `ProdutoController::class . ':listar'`
 - Source: line 9
 
-### POST `/produtos`
+#### POST `/produtos`
 
 - URL: `http://localhost:8080/produtos`
 - Handler: `ProdutoController::class . ':criar'`
 - Source: line 10
 
+### usuarios
+
+#### GET `/usuarios`
+
+- URL: `http://localhost:8080/usuarios`
+- Handler: `UsuarioController::class . ':listar'`
+- Source: line 3
+
+#### POST `/usuarios`
+
+- URL: `http://localhost:8080/usuarios`
+- Handler: `UsuarioController::class . ':criar'`
+- Source: line 4
+
+#### PUT `/usuarios/{id}`
+
+- URL: `http://localhost:8080/usuarios/{id}`
+- Handler: `UsuarioController::class . ':atualizar'`
+- Source: line 5
+
+#### PATCH `/usuarios/{id}`
+
+- URL: `http://localhost:8080/usuarios/{id}`
+- Handler: `UsuarioController::class . ':atualizarParcial'`
+- Source: line 6
+
+#### DELETE `/usuarios/{id}`
+
+- URL: `http://localhost:8080/usuarios/{id}`
+- Handler: `UsuarioController::class . ':deletar'`
+- Source: line 7

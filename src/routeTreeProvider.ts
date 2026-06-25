@@ -2,7 +2,11 @@ import * as vscode from 'vscode';
 import { scanRoutes } from './routeScanner';
 import { Route } from './types/Route';
 
-type RouteTreeNode = RouteFileTreeItem | RouteTreeItem | EmptyRoutesTreeItem;
+type RouteTreeNode =
+  | RouteFileTreeItem
+  | RouteResourceTreeItem
+  | RouteTreeItem
+  | EmptyRoutesTreeItem;
 
 export class RouteTreeProvider implements vscode.TreeDataProvider<RouteTreeNode> {
   private readonly onDidChangeTreeDataEmitter = new vscode.EventEmitter<RouteTreeNode | undefined>();
@@ -19,6 +23,14 @@ export class RouteTreeProvider implements vscode.TreeDataProvider<RouteTreeNode>
 
   async getChildren(element?: RouteTreeNode): Promise<RouteTreeNode[]> {
     if (element instanceof RouteFileTreeItem) {
+      if (!isResourceGroupingEnabled()) {
+        return element.routes.map((route) => new RouteTreeItem(route));
+      }
+
+      return createResourceGroups(element.routes);
+    }
+
+    if (element instanceof RouteResourceTreeItem) {
       return element.routes.map((route) => new RouteTreeItem(route));
     }
 
@@ -33,6 +45,19 @@ export class RouteTreeProvider implements vscode.TreeDataProvider<RouteTreeNode>
     }
 
     return createFileGroups(routes);
+  }
+}
+
+class RouteResourceTreeItem extends vscode.TreeItem {
+  constructor(
+    label: string,
+    readonly routes: Route[]
+  ) {
+    super(label, vscode.TreeItemCollapsibleState.Expanded);
+
+    this.contextValue = 'routeResource';
+    this.description = `${routes.length}`;
+    this.iconPath = new vscode.ThemeIcon('symbol-folder');
   }
 }
 
@@ -116,6 +141,28 @@ function findDuplicateFileNames(filePaths: string[]): Set<string> {
       .filter(([, count]) => count > 1)
       .map(([fileName]) => fileName)
   );
+}
+
+function createResourceGroups(routes: Route[]): RouteResourceTreeItem[] {
+  const routesByResource = new Map<string, Route[]>();
+
+  for (const route of routes) {
+    const resource = route.resource ?? 'root';
+    const resourceRoutes = routesByResource.get(resource) ?? [];
+
+    resourceRoutes.push(route);
+    routesByResource.set(resource, resourceRoutes);
+  }
+
+  return [...routesByResource.entries()]
+    .map(([resource, resourceRoutes]) => new RouteResourceTreeItem(resource, resourceRoutes))
+    .sort((left, right) => left.label!.toString().localeCompare(right.label!.toString()));
+}
+
+function isResourceGroupingEnabled(): boolean {
+  return vscode.workspace
+    .getConfiguration('routelens')
+    .get<boolean>('groupByResource', true);
 }
 
 function getFileName(filePath: string): string {

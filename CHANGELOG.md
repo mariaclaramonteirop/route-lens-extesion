@@ -10,6 +10,8 @@ Todas as alterações relevantes deste projeto serão documentadas aqui.
 - Confirmação antes de sobrescrever uma documentação existente.
 - Configuração `routelens.baseUrl`, com padrão `http://localhost:8080`.
 - Comando para copiar a URL completa de uma rota.
+- Agrupamento das rotas pelo primeiro segmento do path dentro de cada arquivo.
+- Configuração `routelens.groupByResource` para controlar esse agrupamento.
 
 ## 0.1.0
 

@@ -4,4 +4,5 @@ export interface Route {
   filePath: string;
   line: number;
   handler?: string;
+  resource?: string;
 }

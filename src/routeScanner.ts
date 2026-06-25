@@ -38,5 +38,12 @@ function parseSlimRouteLine(line: string, filePath: string, lineNumber: number):
     filePath,
     line: lineNumber,
     handler: match[3].trim(),
+    resource: getRouteResource(match[2]),
   };
+}
+
+function getRouteResource(routePath: string): string {
+  const firstSegment = routePath.split('/').filter(Boolean)[0];
+
+  return firstSegment ?? 'root';
 }

@@ -175,16 +175,21 @@ index.php
   GET /health
 
 routes.php
-  GET /usuarios
-  POST /usuarios
-  PUT /usuarios/{id}
-  PATCH /usuarios/{id}
-  DELETE /usuarios/{id}
+  usuarios
+    GET /usuarios
+    POST /usuarios
+    PUT /usuarios/{id}
+    PATCH /usuarios/{id}
+    DELETE /usuarios/{id}
 ```
 
 As rotas são agrupadas pelo arquivo PHP em que foram declaradas. Se houver
 arquivos com o mesmo nome em diretórios diferentes, o RouteLens exibe o caminho
 relativo ao workspace para diferenciá-los.
+
+Dentro de cada arquivo, as rotas são agrupadas pelo primeiro segmento do path.
+Esse comportamento pode ser desativado pela configuração
+`routelens.groupByResource`.
 
 Ações disponíveis:
 
@@ -211,7 +216,9 @@ workspace e organiza os endpoints pelo arquivo PHP de origem:
 
 ## public/routes.php
 
-### GET `/usuarios`
+### usuarios
+
+#### GET `/usuarios`
 
 - Handler: `UsuarioController::class . ':listar'`
 - Source: line 3
@@ -309,7 +316,7 @@ export interface Route {
 
 * [x] Gerar arquivo `API_ROUTES.md`;
 * [x] Agrupar rotas por arquivo;
-* [ ] Agrupar rotas por recurso;
+* [x] Agrupar rotas por recurso;
 * [x] Permitir configuração de base URL;
 * [ ] Melhorar a exibição visual no painel.
 

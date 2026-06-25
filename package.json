@@ -56,6 +56,11 @@
           "type": "string",
           "default": "http://localhost:8080",
           "description": "Base URL used when copying full route URLs and generating API_ROUTES.md."
+        },
+        "routelens.groupByResource": {
+          "type": "boolean",
+          "default": true,
+          "description": "Group routes by their first path segment inside each source file."
         }
       }
     },

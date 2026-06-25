@@ -18,20 +18,40 @@ export function generateMarkdown(
 
   for (const [filePath, fileRoutes] of routesByFile) {
     lines.push(`## ${getFileLabel(filePath)}`, '');
+    const routesByResource = groupRoutesByResource(fileRoutes);
 
-    for (const route of fileRoutes) {
-      lines.push(`### ${route.method} \`${route.path}\``, '');
-      lines.push(`- URL: \`${buildRouteUrl(baseUrl, route.path)}\``);
+    for (const [resource, resourceRoutes] of routesByResource) {
+      lines.push(`### ${resource}`, '');
 
-      if (route.handler) {
-        lines.push(`- Handler: \`${route.handler}\``);
+      for (const route of resourceRoutes) {
+        lines.push(`#### ${route.method} \`${route.path}\``, '');
+        lines.push(`- URL: \`${buildRouteUrl(baseUrl, route.path)}\``);
+
+        if (route.handler) {
+          lines.push(`- Handler: \`${route.handler}\``);
+        }
+
+        lines.push(`- Source: line ${route.line}`, '');
       }
-
-      lines.push(`- Source: line ${route.line}`, '');
     }
   }
 
   return `${lines.join('\n')}\n`;
+}
+
+function groupRoutesByResource(routes: Route[]): Array<[string, Route[]]> {
+  const routesByResource = new Map<string, Route[]>();
+
+  for (const route of routes) {
+    const resource = route.resource ?? 'root';
+    const resourceRoutes = routesByResource.get(resource) ?? [];
+
+    resourceRoutes.push(route);
+    routesByResource.set(resource, resourceRoutes);
+  }
+
+  return [...routesByResource.entries()]
+    .sort(([leftResource], [rightResource]) => leftResource.localeCompare(rightResource));
 }
 
 function groupRoutesByFile(routes: Route[]): Array<[string, Route[]]> {
