@@ -2,6 +2,11 @@
 
 Todas as alterações relevantes deste projeto serão documentadas aqui.
 
+## Em desenvolvimento
+
+- Agrupamento das rotas pelo arquivo PHP em que foram declaradas.
+- Uso do caminho relativo quando arquivos diferentes possuem o mesmo nome.
+
 ## 0.1.0
 
 - Detecção de rotas PHP Slim para os métodos GET, POST, PUT, PATCH e DELETE.

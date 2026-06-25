@@ -171,12 +171,20 @@ O RouteLens também aparece como um ícone próprio na barra de atividades do VS
 Quando rotas PHP Slim forem encontradas, elas aparecerão no formato:
 
 ```txt
-GET /usuarios
-POST /usuarios
-PUT /usuarios/{id}
-PATCH /usuarios/{id}
-DELETE /usuarios/{id}
+index.php
+  GET /health
+
+routes.php
+  GET /usuarios
+  POST /usuarios
+  PUT /usuarios/{id}
+  PATCH /usuarios/{id}
+  DELETE /usuarios/{id}
 ```
+
+As rotas são agrupadas pelo arquivo PHP em que foram declaradas. Se houver
+arquivos com o mesmo nome em diretórios diferentes, o RouteLens exibe o caminho
+relativo ao workspace para diferenciá-los.
 
 Ações disponíveis:
 
@@ -266,6 +274,7 @@ export interface Route {
 ### Versão 0.2
 
 * [ ] Gerar arquivo `API.md`;
+* [x] Agrupar rotas por arquivo;
 * [ ] Agrupar rotas por recurso;
 * [ ] Permitir configuração de base URL;
 * [ ] Melhorar a exibição visual no painel.

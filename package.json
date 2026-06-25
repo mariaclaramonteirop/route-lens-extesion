@@ -71,24 +71,24 @@
       "view/item/context": [
         {
           "command": "routelens.copyRoute",
-          "when": "view == routelens.routes && viewItem == route",
+          "when": "viewItem == route",
           "group": "inline"
         },
         {
           "command": "routelens.copyMethodAndRoute",
-          "when": "view == routelens.routes && viewItem == route",
+          "when": "viewItem == route",
           "group": "inline"
         },
         {
           "command": "routelens.openRoute",
-          "when": "view == routelens.routes && viewItem == route",
+          "when": "viewItem == route",
           "group": "navigation"
         }
       ],
       "view/title": [
         {
           "command": "routelens.refreshRoutes",
-          "when": "view == routelens.routes",
+          "when": "view == routelens.routes || view == routelens.routesExplorer",
           "group": "navigation"
         }
       ]

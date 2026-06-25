@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { scanRoutes } from './routeScanner';
 import { Route } from './types/Route';
 
-type RouteTreeNode = RouteTreeItem | EmptyRoutesTreeItem;
+type RouteTreeNode = RouteFileTreeItem | RouteTreeItem | EmptyRoutesTreeItem;
 
 export class RouteTreeProvider implements vscode.TreeDataProvider<RouteTreeNode> {
   private readonly onDidChangeTreeDataEmitter = new vscode.EventEmitter<RouteTreeNode | undefined>();
@@ -17,14 +17,37 @@ export class RouteTreeProvider implements vscode.TreeDataProvider<RouteTreeNode>
     return element;
   }
 
-  async getChildren(): Promise<RouteTreeNode[]> {
+  async getChildren(element?: RouteTreeNode): Promise<RouteTreeNode[]> {
+    if (element instanceof RouteFileTreeItem) {
+      return element.routes.map((route) => new RouteTreeItem(route));
+    }
+
+    if (element) {
+      return [];
+    }
+
     const routes = await scanRoutes();
 
     if (routes.length === 0) {
       return [new EmptyRoutesTreeItem()];
     }
 
-    return routes.map((route) => new RouteTreeItem(route));
+    return createFileGroups(routes);
+  }
+}
+
+class RouteFileTreeItem extends vscode.TreeItem {
+  constructor(
+    label: string,
+    readonly filePath: string,
+    readonly routes: Route[]
+  ) {
+    super(label, vscode.TreeItemCollapsibleState.Expanded);
+
+    this.contextValue = 'routeFile';
+    this.description = `${routes.length} ${routes.length === 1 ? 'route' : 'routes'}`;
+    this.iconPath = new vscode.ThemeIcon('file-code');
+    this.tooltip = filePath;
   }
 }
 
@@ -52,6 +75,51 @@ class RouteTreeItem extends vscode.TreeItem {
       arguments: [this],
     };
   }
+}
+
+function createFileGroups(routes: Route[]): RouteFileTreeItem[] {
+  const routesByFile = new Map<string, Route[]>();
+
+  for (const route of routes) {
+    const fileRoutes = routesByFile.get(route.filePath) ?? [];
+
+    fileRoutes.push(route);
+    routesByFile.set(route.filePath, fileRoutes);
+  }
+
+  const duplicateFileNames = findDuplicateFileNames([...routesByFile.keys()]);
+
+  return [...routesByFile.entries()]
+    .map(([filePath, fileRoutes]) => {
+      const fileName = getFileName(filePath);
+      const label = duplicateFileNames.has(fileName)
+        ? vscode.workspace.asRelativePath(filePath, false)
+        : fileName;
+      const sortedRoutes = [...fileRoutes].sort((left, right) => left.line - right.line);
+
+      return new RouteFileTreeItem(label, filePath, sortedRoutes);
+    })
+    .sort((left, right) => left.label!.toString().localeCompare(right.label!.toString()));
+}
+
+function findDuplicateFileNames(filePaths: string[]): Set<string> {
+  const occurrences = new Map<string, number>();
+
+  for (const filePath of filePaths) {
+    const fileName = getFileName(filePath);
+
+    occurrences.set(fileName, (occurrences.get(fileName) ?? 0) + 1);
+  }
+
+  return new Set(
+    [...occurrences.entries()]
+      .filter(([, count]) => count > 1)
+      .map(([fileName]) => fileName)
+  );
+}
+
+function getFileName(filePath: string): string {
+  return filePath.split(/[\\/]/).pop() ?? filePath;
 }
 
 function getRouteIcon(method: string): vscode.ThemeIcon {
