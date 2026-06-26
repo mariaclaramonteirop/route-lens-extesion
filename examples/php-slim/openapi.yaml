@@ -38,6 +38,63 @@ paths:
       responses:
         '200':
           description: Successful response
+  '/produtos/{id}':
+    delete:
+      operationId: delete_produtos_id
+      tags:
+        - 'produtos'
+      summary: 'DELETE /produtos/{id}'
+      parameters:
+        - name: 'id'
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    patch:
+      operationId: patch_produtos_id
+      tags:
+        - 'produtos'
+      summary: 'PATCH /produtos/{id}'
+      parameters:
+        - name: 'id'
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful response
+    put:
+      operationId: put_produtos_id
+      tags:
+        - 'produtos'
+      summary: 'PUT /produtos/{id}'
+      parameters:
+        - name: 'id'
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful response
   '/usuarios':
     get:
       operationId: get_usuarios

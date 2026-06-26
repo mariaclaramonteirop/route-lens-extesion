@@ -9,7 +9,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $app = AppFactory::create();
 
 $app->get('/health', function (Request $request, Response $response): Response {
-    $response->getBody()->write(json_encode(['status' => 'ok']));
+    $response->getBody()->write(json_encode(['status' => 'ok'], JSON_UNESCAPED_UNICODE));
 
     return $response->withHeader('Content-Type', 'application/json');
 });

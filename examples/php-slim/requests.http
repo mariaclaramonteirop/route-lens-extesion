@@ -20,6 +20,28 @@ Content-Type: application/json
   "example": "value"
 }
 
+### DELETE /produtos/{id}
+# Resource: produtos
+DELETE {{baseUrl}}/produtos/{{id}}
+
+### PATCH /produtos/{id}
+# Resource: produtos
+PATCH {{baseUrl}}/produtos/{{id}}
+Content-Type: application/json
+
+{
+  "example": "value"
+}
+
+### PUT /produtos/{id}
+# Resource: produtos
+PUT {{baseUrl}}/produtos/{{id}}
+Content-Type: application/json
+
+{
+  "example": "value"
+}
+
 ### GET /usuarios
 # Resource: usuarios
 GET {{baseUrl}}/usuarios
@@ -54,4 +76,3 @@ Content-Type: application/json
 {
   "example": "value"
 }
-

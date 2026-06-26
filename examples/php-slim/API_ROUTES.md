@@ -22,13 +22,31 @@ Base URL: `http://localhost:8080`
 
 - URL: `http://localhost:8080/produtos`
 - Handler: `ProdutoController::class . ':listar'`
-- Source: line 9
+- Source: line 12
 
 #### POST `/produtos`
 
 - URL: `http://localhost:8080/produtos`
 - Handler: `ProdutoController::class . ':criar'`
-- Source: line 10
+- Source: line 13
+
+#### PUT `/produtos/{id}`
+
+- URL: `http://localhost:8080/produtos/{id}`
+- Handler: `ProdutoController::class . ':atualizar'`
+- Source: line 14
+
+#### PATCH `/produtos/{id}`
+
+- URL: `http://localhost:8080/produtos/{id}`
+- Handler: `ProdutoController::class . ':atualizarParcial'`
+- Source: line 15
+
+#### DELETE `/produtos/{id}`
+
+- URL: `http://localhost:8080/produtos/{id}`
+- Handler: `ProdutoController::class . ':deletar'`
+- Source: line 16
 
 ### usuarios
 

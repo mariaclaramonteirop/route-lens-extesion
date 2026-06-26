@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+namespace RouteLensExample\Support;
+
+final class SeedData
+{
+    public static function all(): array
+    {
+        return [
+            'usuarios' => [
+                [
+                    'id' => 1,
+                    'nome' => 'Maria Clara',
+                    'email' => 'maria.clara@example.com',
+                    'role' => 'admin',
+                ],
+                [
+                    'id' => 2,
+                    'nome' => 'Joao Pedro',
+                    'email' => 'joao.pedro@example.com',
+                    'role' => 'editor',
+                ],
+                [
+                    'id' => 3,
+                    'nome' => 'Ana Luiza',
+                    'email' => 'ana.luiza@example.com',
+                    'role' => 'viewer',
+                ],
+            ],
+            'produtos' => [
+                [
+                    'id' => 1,
+                    'nome' => 'Notebook Pro',
+                    'preco' => 5499.9,
+                    'estoque' => 8,
+                ],
+                [
+                    'id' => 2,
+                    'nome' => 'Mouse Wireless',
+                    'preco' => 129.9,
+                    'estoque' => 30,
+                ],
+                [
+                    'id' => 3,
+                    'nome' => 'Teclado Mecanico',
+                    'preco' => 399.9,
+                    'estoque' => 14,
+                ],
+            ],
+        ];
+    }
+}
