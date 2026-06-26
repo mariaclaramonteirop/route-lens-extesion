@@ -2,7 +2,7 @@
 
 Todas as alterações relevantes deste projeto serão documentadas aqui.
 
-## Em desenvolvimento
+## 0.3.0
 
 - Geração do arquivo `requests.http` com base nas rotas detectadas.
 - Variáveis para parâmetros de path e exemplos de corpo JSON.
