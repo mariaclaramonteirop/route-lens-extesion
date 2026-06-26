@@ -7,6 +7,47 @@
       "group": "build",
       "problemMatcher": "$tsc",
       "label": "npm: compile"
+    },
+    {
+      "label": "prepare php-slim example",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "npm: compile",
+        "serve php-slim example"
+      ]
+    },
+    {
+      "label": "serve php-slim example",
+      "type": "process",
+      "command": "php",
+      "args": [
+        "-S",
+        "127.0.0.1:8080",
+        "-t",
+        "public"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/examples/php-slim"
+      },
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated",
+        "focus": false,
+        "clear": true
+      },
+      "problemMatcher": {
+        "owner": "php",
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Development Server \\(http://127\\.0\\.0\\.1:8080\\) started",
+          "endsPattern": "Development Server \\(http://127\\.0\\.0\\.1:8080\\) started"
+        }
+      }
     }
   ]
 }

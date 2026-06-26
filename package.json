@@ -54,7 +54,7 @@
       "properties": {
         "routelens.baseUrl": {
           "type": "string",
-          "default": "http://localhost:8080",
+          "default": "http://127.0.0.1:8080",
           "description": "Base URL used by full URLs, generated documentation, HTTP requests and the API preview."
         },
         "routelens.groupByResource": {

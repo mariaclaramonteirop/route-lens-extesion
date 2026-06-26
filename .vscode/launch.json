@@ -12,7 +12,7 @@
       "outFiles": [
         "${workspaceFolder}/out/**/*.js"
       ],
-      "preLaunchTask": "npm: compile"
+      "preLaunchTask": "prepare php-slim example"
     },
     {
       "name": "Run RouteLens Extension - Empty PHP",

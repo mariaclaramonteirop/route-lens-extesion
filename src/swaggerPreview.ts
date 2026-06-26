@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import * as http from 'node:http';
+import * as https from 'node:https';
 import { Route } from './types/Route';
 import { buildRouteUrl } from './urlBuilder';
 
@@ -39,15 +41,14 @@ export function openSwaggerPreview(routes: Route[], baseUrl: string): void {
         options.body = message.body;
       }
 
-      const response = await fetch(url, options);
-      const responseBody = await response.text();
+      const response = await executeHttpRequest(url, options);
 
       await panel.webview.postMessage({
         type: 'requestResult',
         id: message.id,
         status: response.status,
         statusText: response.statusText,
-        body: formatResponseBody(responseBody),
+        body: formatResponseBody(response.body),
       });
     } catch (error) {
       await panel.webview.postMessage({
@@ -185,6 +186,46 @@ function formatResponseBody(body: string): string {
   } catch {
     return body;
   }
+}
+
+function executeHttpRequest(urlString: string, options: RequestInit): Promise<{
+  status: number;
+  statusText: string;
+  body: string;
+}> {
+  return new Promise((resolve, reject) => {
+    const url = new URL(urlString);
+    const client = url.protocol === 'https:' ? https : http;
+    const request = client.request(
+      url,
+      {
+        method: options.method,
+        headers: options.headers as http.OutgoingHttpHeaders,
+      },
+      (response) => {
+        const chunks: Buffer[] = [];
+
+        response.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+        response.on('end', () => {
+          const body = Buffer.concat(chunks).toString('utf8');
+
+          resolve({
+            status: response.statusCode ?? 0,
+            statusText: response.statusMessage ?? '',
+            body,
+          });
+        });
+      }
+    );
+
+    request.on('error', reject);
+
+    if (typeof options.body === 'string') {
+      request.write(options.body);
+    }
+
+    request.end();
+  });
 }
 
 function createNonce(): string {
