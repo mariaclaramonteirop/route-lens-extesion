@@ -34,14 +34,11 @@ Futuramente, o projeto poderá evoluir para oferecer suporte a outros frameworks
 
 ### Frameworks planejados
 
-O suporte estável atual é focado em **PHP Slim**. A V4 foi iniciada com uma arquitetura multi-scanner e suporte inicial a **Express.js** em desenvolvimento.
+O suporte estável atual é focado em **PHP Slim**. A V4 foi iniciada com uma arquitetura multi-scanner e suporte inicial a novos frameworks.
 
 **Em desenvolvimento**
 
 * Express.js;
-
-**Próximos scanners**
-
 * Laravel;
 * Spring Boot;
 * FastAPI;
@@ -92,6 +89,10 @@ Na V4 em desenvolvimento, o projeto iniciou:
 * Arquitetura de scanners separados por framework;
 * Scanner dedicado para PHP Slim;
 * Scanner inicial para Express.js;
+* Scanner inicial para Laravel;
+* Scanner inicial para FastAPI;
+* Scanner inicial para Spring Boot;
+* Scanner inicial para ASP.NET Core;
 * Identificação da linguagem da rota;
 * Configuração para habilitar ou desabilitar scanners.
 
@@ -200,7 +201,7 @@ Run RouteLens Extension - Empty PHP
 
 4. Pressione `F5`.
 
-A configuração **PHP Slim** abre apenas o projeto PHP Slim de exemplo. A configuração **Multi-framework Examples** abre a pasta `examples/` inteira, permitindo validar PHP Slim e Express.js juntos. A configuração **Empty PHP** abre um projeto sem rotas para validar o estado vazio do painel.
+A configuração **PHP Slim** abre apenas o projeto PHP Slim de exemplo. A configuração **Multi-framework Examples** abre a pasta `examples/` inteira, permitindo validar os scanners disponíveis juntos. A configuração **Empty PHP** abre um projeto sem rotas para validar o estado vazio do painel.
 
 ---
 
@@ -294,13 +295,17 @@ A configuração `routelens.enabledFrameworks` define quais scanners serão usad
 Valor padrão da V4 em desenvolvimento:
 
 ```json
-["php-slim", "express"]
+["php-slim", "laravel", "express", "fastapi", "spring-boot", "aspnet-core"]
 ```
 
 Frameworks disponíveis nesta etapa:
 
 * `php-slim`
+* `laravel`
 * `express`
+* `fastapi`
+* `spring-boot`
+* `aspnet-core`
 
 ---
 
@@ -387,13 +392,11 @@ O repositório inclui exemplos de rotas para validar o scanner atual e orientar 
 Exemplos detectados atualmente:
 
 * `examples/php-slim` — PHP Slim, com `usuarios` e `produtos`;
-* `examples/express` — Express.js, com `clientes`, `pedidos`, `itens`, `produtos`, `cores` e `categorias`.
-
-Exemplos planejados para os próximos scanners:
-
-* `examples/fastapi` — Python com FastAPI, usando os mesmos domínios como base para o scanner Python;
-* `examples/spring-boot` — Java com Spring Boot, usando os mesmos domínios como base para o scanner Java;
-* `examples/aspnet` — C# com ASP.NET Core Minimal APIs, usando os mesmos domínios como base para o scanner C#.
+* `examples/laravel` — PHP com Laravel, com `clientes`, `pedidos`, `itens`, `produtos`, `cores` e `categorias`;
+* `examples/express` — JavaScript com Express.js, com `clientes`, `pedidos`, `itens`, `produtos`, `cores` e `categorias`;
+* `examples/fastapi` — Python com FastAPI, com `clientes`, `pedidos`, `itens`, `produtos`, `cores` e `categorias`;
+* `examples/spring-boot` — Java com Spring Boot, com `clientes`, `pedidos`, `itens`, `produtos`, `cores` e `categorias`;
+* `examples/aspnet` — C# com ASP.NET Core Minimal APIs, com `clientes`, `pedidos`, `itens`, `produtos`, `cores` e `categorias`.
 
 Esses exemplos usam recursos comuns em APIs comerciais:
 
@@ -470,10 +473,13 @@ export interface Route {
 * [x] Criar arquitetura base de scanners;
 * [x] Separar scanner PHP Slim;
 * [x] Adicionar scanner inicial para Express.js;
+* [x] Adicionar scanner inicial para Laravel;
+* [x] Adicionar scanner inicial para FastAPI;
+* [x] Adicionar scanner inicial para Spring Boot;
+* [x] Adicionar scanner inicial para ASP.NET Core;
 * [x] Permitir habilitar e desabilitar scanners por configuração;
-* [ ] Adicionar suporte a Laravel;
 * [ ] Melhorar tratamento de rotas Express com prefixos de `router`;
-* [ ] Preparar scanners para Spring Boot, FastAPI e ASP.NET Core.
+* [ ] Melhorar tratamento de grupos/prefixos de rotas por framework.
 
 ### Versão 1.0
 
@@ -528,7 +534,7 @@ Este projeto é voltado para:
 
 Versão **0.3.0** pronta para projetos PHP Slim.
 
-A **V4 Multi-framework** foi iniciada em desenvolvimento, com arquitetura de scanners separados e suporte inicial a Express.js.
+A **V4 Multi-framework** foi iniciada em desenvolvimento, com arquitetura de scanners separados e suporte inicial a Express.js, Laravel, FastAPI, Spring Boot e ASP.NET Core.
 
 Já é possível detectar e organizar rotas por arquivo e recurso, navegar até a declaração, copiar URLs completas e gerar documentação em `API_ROUTES.md`.
 

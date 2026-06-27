@@ -3,12 +3,14 @@ import { Route } from './types/Route';
 import { AspNetCoreScanner } from './scanners/aspNetCoreScanner';
 import { ExpressScanner } from './scanners/expressScanner';
 import { FastApiScanner } from './scanners/fastApiScanner';
+import { LaravelScanner } from './scanners/laravelScanner';
 import { RouteScanner } from './scanners/RouteScanner';
 import { SlimScanner } from './scanners/slimScanner';
 import { SpringBootScanner } from './scanners/springBootScanner';
 
 const scanners: RouteScanner[] = [
   new SlimScanner(),
+  new LaravelScanner(),
   new ExpressScanner(),
   new FastApiScanner(),
   new SpringBootScanner(),

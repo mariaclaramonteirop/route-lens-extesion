@@ -8,11 +8,14 @@ Todas as alterações relevantes deste projeto serão documentadas aqui.
 - Arquitetura de scanners separados por framework.
 - Scanner PHP Slim extraído para módulo dedicado.
 - Scanner inicial para Express.js com suporte a `app` e `router`.
+- Scanner inicial para Laravel com suporte a `Route::get`, `Route::post`, `Route::put`, `Route::patch` e `Route::delete`.
+- Scanners iniciais para FastAPI, Spring Boot e ASP.NET Core.
 - Linguagem e framework agora aparecem na árvore, tooltips e arquivos gerados.
 - Configuração `routelens.enabledFrameworks` para habilitar ou desabilitar scanners.
 - Exemplo Express.js adicionado em `examples/express`.
+- Exemplo Laravel adicionado em `examples/laravel`.
 - Exemplos de rotas comerciais adicionados para clientes, pedidos, itens, produtos, cores e categorias.
-- Exemplos futuros adicionados para FastAPI, Spring Boot e ASP.NET Core.
+- Exemplos adicionados para FastAPI, Spring Boot e ASP.NET Core.
 
 ## 0.3.0
 

@@ -66,6 +66,7 @@
           "type": "array",
           "default": [
             "php-slim",
+            "laravel",
             "express",
             "fastapi",
             "spring-boot",
@@ -75,6 +76,7 @@
             "type": "string",
             "enum": [
               "php-slim",
+              "laravel",
               "express",
               "fastapi",
               "spring-boot",
