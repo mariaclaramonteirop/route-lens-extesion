@@ -21,6 +21,9 @@ export function generateOpenApiYaml(routes: Route[], baseUrl: string): string {
         `      operationId: ${createOperationId(route)}`,
         `      x-routelens-language: ${quoteYaml(route.language ?? 'unknown')}`,
         `      x-routelens-framework: ${quoteYaml(route.framework ?? 'unknown')}`,
+        `      x-routelens-source-file: ${quoteYaml(getFileName(route.filePath))}`,
+        `      x-routelens-source-folder: ${quoteYaml(getFolderName(route.filePath))}`,
+        `      x-routelens-source-path: ${quoteYaml(route.filePath)}`,
         '      tags:',
         `        - ${quoteYaml(route.resource ?? 'root')}`,
         `      summary: ${quoteYaml(`${route.method} ${route.path}`)}`
@@ -105,4 +108,18 @@ function createOperationId(route: Route): string {
 
 function quoteYaml(value: string): string {
   return `'${value.replace(/'/g, "''")}'`;
+}
+
+function getFileName(filePath: string): string {
+  return filePath.split(/[\\/]/).pop() ?? filePath;
+}
+
+function getFolderName(filePath: string): string {
+  const parts = filePath.split(/[\\/]/);
+
+  if (parts.length <= 1) {
+    return '.';
+  }
+
+  return parts.slice(0, -1).join('/');
 }
