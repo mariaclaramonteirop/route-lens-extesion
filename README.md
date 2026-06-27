@@ -30,11 +30,38 @@ O objetivo do **RouteLens** é facilitar a vida de desenvolvedores back-end dura
 
 A extensão atualmente oferece suporte a projetos desenvolvidos com **PHP Slim**, framework utilizado em APIs simples, organizadas e performáticas.
 
-Futuramente, o projeto poderá evoluir para oferecer suporte a outros frameworks, como:
+Futuramente, o projeto poderá evoluir para oferecer suporte a outros frameworks e ecossistemas de APIs REST, como Express.js, Laravel, Spring Boot, FastAPI e ASP.NET Core.
+
+### Frameworks planejados
+
+O suporte estável atual é focado em **PHP Slim**. A V4 foi iniciada com uma arquitetura multi-scanner e suporte inicial a **Express.js** em desenvolvimento.
+
+**Em desenvolvimento**
+
+* Express.js;
+
+**Próximos scanners**
 
 * Laravel;
-* Express.js;
-* Spring Boot.
+* Spring Boot;
+* FastAPI;
+* ASP.NET Core.
+
+**Ideias futuras**
+
+* Fastify;
+* NestJS;
+* Flask;
+* Django REST Framework;
+* Go com Gin, Echo, Fiber ou chi;
+* Ruby on Rails;
+* Sinatra;
+* Kotlin com Ktor;
+* Rust com Axum, Actix Web ou Rocket;
+* Phoenix;
+* Next.js API Routes e Route Handlers;
+* Cloudflare Workers;
+* Bun com Elysia.
 
 ---
 
@@ -52,12 +79,21 @@ Na versão `0.3.0`, o RouteLens oferece:
   * `DELETE`
 * Exibição das rotas em um painel lateral no VS Code;
 * Navegação até o arquivo e linha onde a rota foi declarada;
+* Exibição da linguagem e framework detectados por rota;
 * Opção para copiar apenas a rota;
 * Opção para copiar método + rota;
 * Opção para copiar a URL completa com uma base URL configurável;
 * Agrupamento das rotas por arquivo e recurso;
 * Geração automática do arquivo `API_ROUTES.md`;
 * Organização visual dos endpoints encontrados.
+
+Na V4 em desenvolvimento, o projeto iniciou:
+
+* Arquitetura de scanners separados por framework;
+* Scanner dedicado para PHP Slim;
+* Scanner inicial para Express.js;
+* Identificação da linguagem da rota;
+* Configuração para habilitar ou desabilitar scanners.
 
 ---
 
@@ -157,13 +193,14 @@ Para testar no VS Code:
 3. Escolha uma configuração:
 
 ```txt
+Run RouteLens Extension - Multi-framework Examples
 Run RouteLens Extension - PHP Slim
 Run RouteLens Extension - Empty PHP
 ```
 
 4. Pressione `F5`.
 
-A configuração **PHP Slim** abre um projeto de exemplo com rotas detectáveis. A configuração **Empty PHP** abre um projeto sem rotas para validar o estado vazio do painel.
+A configuração **PHP Slim** abre apenas o projeto PHP Slim de exemplo. A configuração **Multi-framework Examples** abre a pasta `examples/` inteira, permitindo validar PHP Slim e Express.js juntos. A configuração **Empty PHP** abre um projeto sem rotas para validar o estado vazio do painel.
 
 ---
 
@@ -181,8 +218,8 @@ index.php
 
 routes.php
   usuarios
-    GET /usuarios
-    POST /usuarios
+    GET /usuarios        PHP • PHP Slim
+    POST /usuarios       PHP • PHP Slim
     PUT /usuarios/{id}
     PATCH /usuarios/{id}
     DELETE /usuarios/{id}
@@ -229,6 +266,8 @@ workspace e organiza os endpoints pelo arquivo PHP de origem:
 #### GET `/usuarios`
 
 - Handler: `UsuarioController::class . ':listar'`
+- Language: `PHP`
+- Framework: `PHP Slim`
 - Source: line 3
 ```
 
@@ -247,6 +286,21 @@ http://localhost:8080
 
 Ela pode ser alterada nas configurações do VS Code, pesquisando por
 `RouteLens: Base Url`.
+
+### Configurar frameworks habilitados
+
+A configuração `routelens.enabledFrameworks` define quais scanners serão usados.
+
+Valor padrão da V4 em desenvolvimento:
+
+```json
+["php-slim", "express"]
+```
+
+Frameworks disponíveis nesta etapa:
+
+* `php-slim`
+* `express`
 
 ---
 
@@ -326,6 +380,32 @@ Esse ambiente não é necessário para desenvolver a extensão. Ele serve apenas
 
 ---
 
+## Exemplos Multi-framework
+
+O repositório inclui exemplos de rotas para validar o scanner atual e orientar a evolução da V4.
+
+Exemplos detectados atualmente:
+
+* `examples/php-slim` — PHP Slim, com `usuarios` e `produtos`;
+* `examples/express` — Express.js, com `clientes`, `pedidos`, `itens`, `produtos`, `cores` e `categorias`.
+
+Exemplos planejados para os próximos scanners:
+
+* `examples/fastapi` — Python com FastAPI, usando os mesmos domínios como base para o scanner Python;
+* `examples/spring-boot` — Java com Spring Boot, usando os mesmos domínios como base para o scanner Java;
+* `examples/aspnet` — C# com ASP.NET Core Minimal APIs, usando os mesmos domínios como base para o scanner C#.
+
+Esses exemplos usam recursos comuns em APIs comerciais:
+
+* clientes;
+* pedidos;
+* itens de pedido;
+* produtos;
+* cores;
+* categorias.
+
+---
+
 ## Como Funciona
 
 O fluxo da extensão é:
@@ -376,7 +456,6 @@ export interface Route {
 
 ### Versão 0.3
 
-* [ ] Suporte a Express.js;
 * [x] Geração de arquivos `.http`;
 * [ ] Detecção do controller associado;
 * [ ] Melhor tratamento para rotas em grupos;
@@ -386,9 +465,18 @@ export interface Route {
 * [x] Converter `{id}` em parâmetro de path;
 * [x] Permitir visualização e execução em uma prévia interna.
 
+### Versão 0.4 — V4 Multi-framework
+
+* [x] Criar arquitetura base de scanners;
+* [x] Separar scanner PHP Slim;
+* [x] Adicionar scanner inicial para Express.js;
+* [x] Permitir habilitar e desabilitar scanners por configuração;
+* [ ] Adicionar suporte a Laravel;
+* [ ] Melhorar tratamento de rotas Express com prefixos de `router`;
+* [ ] Preparar scanners para Spring Boot, FastAPI e ASP.NET Core.
+
 ### Versão 1.0
 
-* [ ] Suporte a Laravel;
 * [ ] Exportação em formato OpenAPI;
 * [ ] Interface refinada;
 * [ ] Publicação no Marketplace do VS Code.
@@ -439,6 +527,8 @@ Este projeto é voltado para:
 ## Status do Projeto
 
 Versão **0.3.0** pronta para projetos PHP Slim.
+
+A **V4 Multi-framework** foi iniciada em desenvolvimento, com arquitetura de scanners separados e suporte inicial a Express.js.
 
 Já é possível detectar e organizar rotas por arquivo e recurso, navegar até a declaração, copiar URLs completas e gerar documentação em `API_ROUTES.md`.
 

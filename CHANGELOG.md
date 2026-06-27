@@ -2,6 +2,18 @@
 
 Todas as alterações relevantes deste projeto serão documentadas aqui.
 
+## Unreleased
+
+- Início da V4 Multi-framework.
+- Arquitetura de scanners separados por framework.
+- Scanner PHP Slim extraído para módulo dedicado.
+- Scanner inicial para Express.js com suporte a `app` e `router`.
+- Linguagem e framework agora aparecem na árvore, tooltips e arquivos gerados.
+- Configuração `routelens.enabledFrameworks` para habilitar ou desabilitar scanners.
+- Exemplo Express.js adicionado em `examples/express`.
+- Exemplos de rotas comerciais adicionados para clientes, pedidos, itens, produtos, cores e categorias.
+- Exemplos futuros adicionados para FastAPI, Spring Boot e ASP.NET Core.
+
 ## 0.3.0
 
 - Geração do arquivo `requests.http` com base nas rotas detectadas.

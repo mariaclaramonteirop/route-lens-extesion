@@ -2,6 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run RouteLens Extension - Multi-framework Examples",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "${workspaceFolder}/examples"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/out/**/*.js"
+      ],
+      "preLaunchTask": "prepare multi-framework examples"
+    },
+    {
       "name": "Run RouteLens Extension - PHP Slim",
       "type": "extensionHost",
       "request": "launch",

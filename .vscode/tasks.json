@@ -17,6 +17,13 @@
       ]
     },
     {
+      "label": "prepare multi-framework examples",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "npm: compile"
+      ]
+    },
+    {
       "label": "serve php-slim example",
       "type": "process",
       "command": "php",
