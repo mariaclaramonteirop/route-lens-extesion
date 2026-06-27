@@ -22,6 +22,11 @@ export function generateHttpRequests(routes: Route[], baseUrl: string): string {
 
     lines.push(`### ${route.method} ${route.path}`);
     lines.push(`# Resource: ${resource}`);
+
+    if (route.language || route.framework) {
+      lines.push(`# Source: ${[route.language, route.framework].filter(Boolean).join(' / ')}`);
+    }
+
     lines.push(`${route.method} {{baseUrl}}${requestPath}`);
 
     if (METHODS_WITH_BODY.has(route.method)) {

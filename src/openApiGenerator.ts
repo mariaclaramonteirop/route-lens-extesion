@@ -19,6 +19,8 @@ export function generateOpenApiYaml(routes: Route[], baseUrl: string): string {
       lines.push(
         `    ${route.method.toLowerCase()}:`,
         `      operationId: ${createOperationId(route)}`,
+        `      x-routelens-language: ${quoteYaml(route.language ?? 'unknown')}`,
+        `      x-routelens-framework: ${quoteYaml(route.framework ?? 'unknown')}`,
         '      tags:',
         `        - ${quoteYaml(route.resource ?? 'root')}`,
         `      summary: ${quoteYaml(`${route.method} ${route.path}`)}`

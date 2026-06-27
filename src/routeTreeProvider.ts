@@ -3,6 +3,7 @@ import { scanRoutes } from './routeScanner';
 import { Route } from './types/Route';
 
 type RouteTreeNode =
+  | RouteFrameworkTreeItem
   | RouteFileTreeItem
   | RouteResourceTreeItem
   | RouteTreeItem
@@ -22,6 +23,10 @@ export class RouteTreeProvider implements vscode.TreeDataProvider<RouteTreeNode>
   }
 
   async getChildren(element?: RouteTreeNode): Promise<RouteTreeNode[]> {
+    if (element instanceof RouteFrameworkTreeItem) {
+      return createFileGroups(element.routes);
+    }
+
     if (element instanceof RouteFileTreeItem) {
       if (!isResourceGroupingEnabled()) {
         return element.routes.map((route) => new RouteTreeItem(route));
@@ -44,7 +49,20 @@ export class RouteTreeProvider implements vscode.TreeDataProvider<RouteTreeNode>
       return [new EmptyRoutesTreeItem()];
     }
 
-    return createFileGroups(routes);
+    return createFrameworkGroups(routes);
+  }
+}
+
+class RouteFrameworkTreeItem extends vscode.TreeItem {
+  constructor(
+    label: string,
+    readonly routes: Route[]
+  ) {
+    super(label, vscode.TreeItemCollapsibleState.Expanded);
+
+    this.contextValue = 'routeFramework';
+    this.description = `${routes.length} ${routes.length === 1 ? 'route' : 'routes'}`;
+    this.iconPath = new vscode.ThemeIcon('library');
   }
 }
 
@@ -80,9 +98,9 @@ class EmptyRoutesTreeItem extends vscode.TreeItem {
   constructor() {
     super('No routes found', vscode.TreeItemCollapsibleState.None);
 
-    this.description = 'PHP Slim';
+    this.description = 'RouteLens';
     this.iconPath = new vscode.ThemeIcon('info');
-    this.tooltip = 'No PHP Slim routes were found in this workspace.';
+    this.tooltip = 'No routes were found for the enabled RouteLens frameworks.';
   }
 }
 
@@ -91,7 +109,7 @@ class RouteTreeItem extends vscode.TreeItem {
     super(`${route.method} ${route.path}`, vscode.TreeItemCollapsibleState.None);
 
     this.contextValue = 'route';
-    this.description = route.handler;
+    this.description = createRouteDescription(route);
     this.iconPath = getRouteIcon(route.method);
     this.tooltip = getRouteTooltip(route);
     this.command = {
@@ -124,6 +142,22 @@ function createFileGroups(routes: Route[]): RouteFileTreeItem[] {
 
       return new RouteFileTreeItem(label, filePath, sortedRoutes);
     })
+    .sort((left, right) => left.label!.toString().localeCompare(right.label!.toString()));
+}
+
+function createFrameworkGroups(routes: Route[]): RouteFrameworkTreeItem[] {
+  const routesByFramework = new Map<string, Route[]>();
+
+  for (const route of routes) {
+    const framework = route.framework ?? route.language ?? 'Unknown';
+    const frameworkRoutes = routesByFramework.get(framework) ?? [];
+
+    frameworkRoutes.push(route);
+    routesByFramework.set(framework, frameworkRoutes);
+  }
+
+  return [...routesByFramework.entries()]
+    .map(([framework, frameworkRoutes]) => new RouteFrameworkTreeItem(framework, frameworkRoutes))
     .sort((left, right) => left.label!.toString().localeCompare(right.label!.toString()));
 }
 
@@ -202,11 +236,19 @@ function getRouteColorId(method: string): string {
 function getRouteTooltip(route: Route): vscode.MarkdownString {
   const tooltip = new vscode.MarkdownString(undefined, true);
   const handler = route.handler ? route.handler : 'Not detected';
+  const framework = route.framework ? route.framework : 'Not detected';
+  const language = route.language ? route.language : 'Not detected';
 
   tooltip.appendMarkdown(`**${route.method}** \`${route.path}\`\n\n`);
+  tooltip.appendMarkdown(`Language: \`${language}\`\n\n`);
+  tooltip.appendMarkdown(`Framework: \`${framework}\`\n\n`);
   tooltip.appendMarkdown(`Handler: \`${handler}\`\n\n`);
   tooltip.appendMarkdown(`File: \`${route.filePath}\`\n\n`);
   tooltip.appendMarkdown(`Line: \`${route.line}\``);
 
   return tooltip;
+}
+
+function createRouteDescription(route: Route): string {
+  return [route.language, route.framework].filter(Boolean).join(' • ');
 }

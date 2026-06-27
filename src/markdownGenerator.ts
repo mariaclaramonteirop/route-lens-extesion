@@ -27,6 +27,14 @@ export function generateMarkdown(
         lines.push(`#### ${route.method} \`${route.path}\``, '');
         lines.push(`- URL: \`${buildRouteUrl(baseUrl, route.path)}\``);
 
+        if (route.language) {
+          lines.push(`- Language: \`${route.language}\``);
+        }
+
+        if (route.framework) {
+          lines.push(`- Framework: \`${route.framework}\``);
+        }
+
         if (route.handler) {
           lines.push(`- Handler: \`${route.handler}\``);
         }
