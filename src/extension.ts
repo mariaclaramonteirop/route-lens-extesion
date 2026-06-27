@@ -14,7 +14,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerTreeDataProvider('routelens.routes', routeTreeProvider),
     vscode.window.registerTreeDataProvider('routelens.routesExplorer', routeTreeProvider),
     vscode.workspace.onDidChangeConfiguration((event) => {
-      if (event.affectsConfiguration('routelens.groupByResource')) {
+      if (
+        event.affectsConfiguration('routelens.groupByResource') ||
+        event.affectsConfiguration('routelens.enabledFrameworks')
+      ) {
         routeTreeProvider.refresh();
       }
     }),
@@ -80,7 +83,7 @@ export function activate(context: vscode.ExtensionContext) {
       const routes = await scanRoutes();
 
       if (routes.length === 0) {
-        vscode.window.showWarningMessage('No PHP Slim routes were found to document.');
+        vscode.window.showWarningMessage('No routes were found to document.');
         return;
       }
 
@@ -122,7 +125,7 @@ export function activate(context: vscode.ExtensionContext) {
       const routes = await scanRoutes();
 
       if (routes.length === 0) {
-        vscode.window.showWarningMessage('No PHP Slim routes were found to generate requests.');
+        vscode.window.showWarningMessage('No routes were found to generate requests.');
         return;
       }
 
@@ -152,7 +155,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('routelens.generateOpenApi', async () => {
       const generated = await generateWorkspaceFile(
         'openapi.yaml',
-        'No PHP Slim routes were found to generate OpenAPI.',
+        'No routes were found to generate OpenAPI.',
         (routes) => generateOpenApiYaml(routes, getBaseUrl())
       );
 
@@ -164,7 +167,7 @@ export function activate(context: vscode.ExtensionContext) {
       const routes = await scanRoutes();
 
       if (routes.length === 0) {
-        vscode.window.showWarningMessage('No PHP Slim routes were found to preview.');
+        vscode.window.showWarningMessage('No routes were found to preview.');
         return;
       }
 

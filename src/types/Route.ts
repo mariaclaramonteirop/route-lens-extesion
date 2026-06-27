@@ -5,4 +5,6 @@ export interface Route {
   line: number;
   handler?: string;
   resource?: string;
+  framework?: string;
+  language?: string;
 }

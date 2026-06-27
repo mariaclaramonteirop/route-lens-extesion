@@ -61,6 +61,27 @@
           "type": "boolean",
           "default": true,
           "description": "Group routes by their first path segment inside each source file."
+        },
+        "routelens.enabledFrameworks": {
+          "type": "array",
+          "default": [
+            "php-slim",
+            "express",
+            "fastapi",
+            "spring-boot",
+            "aspnet-core"
+          ],
+          "items": {
+            "type": "string",
+            "enum": [
+              "php-slim",
+              "express",
+              "fastapi",
+              "spring-boot",
+              "aspnet-core"
+            ]
+          },
+          "description": "Framework scanners enabled by RouteLens."
         }
       }
     },

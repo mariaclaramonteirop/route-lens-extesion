@@ -1,49 +1,32 @@
 import * as vscode from 'vscode';
 import { Route } from './types/Route';
+import { AspNetCoreScanner } from './scanners/aspNetCoreScanner';
+import { ExpressScanner } from './scanners/expressScanner';
+import { FastApiScanner } from './scanners/fastApiScanner';
+import { RouteScanner } from './scanners/RouteScanner';
+import { SlimScanner } from './scanners/slimScanner';
+import { SpringBootScanner } from './scanners/springBootScanner';
 
-const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'];
+const scanners: RouteScanner[] = [
+  new SlimScanner(),
+  new ExpressScanner(),
+  new FastApiScanner(),
+  new SpringBootScanner(),
+  new AspNetCoreScanner(),
+];
 
 export async function scanRoutes(): Promise<Route[]> {
-  const files = await vscode.workspace.findFiles('**/*.php', '**/{vendor,node_modules,.git}/**');
-  const routes: Route[] = [];
+  const enabledFrameworks = getEnabledFrameworks();
+  const enabledScanners = scanners.filter((scanner) => enabledFrameworks.has(scanner.id));
+  const routeGroups = await Promise.all(enabledScanners.map((scanner) => scanner.scan()));
 
-  for (const file of files) {
-    const document = await vscode.workspace.openTextDocument(file);
-
-    for (let index = 0; index < document.lineCount; index += 1) {
-      const line = document.lineAt(index).text;
-      const route = parseSlimRouteLine(line, file.fsPath, index + 1);
-
-      if (route) {
-        routes.push(route);
-      }
-    }
-  }
-
-  return routes;
+  return routeGroups.flat();
 }
 
-function parseSlimRouteLine(line: string, filePath: string, lineNumber: number): Route | null {
-  const methods = HTTP_METHODS.join('|');
-  const pattern = new RegExp(`\\$app->(${methods})\\(['"\`]([^'"\`]+)['"\`]\\s*,\\s*(.+)\\)`, 'i');
-  const match = line.match(pattern);
+function getEnabledFrameworks(): Set<string> {
+  const configuredFrameworks = vscode.workspace
+    .getConfiguration('routelens')
+    .get<string[]>('enabledFrameworks', scanners.map((scanner) => scanner.id));
 
-  if (!match) {
-    return null;
-  }
-
-  return {
-    method: match[1].toUpperCase(),
-    path: match[2],
-    filePath,
-    line: lineNumber,
-    handler: match[3].trim(),
-    resource: getRouteResource(match[2]),
-  };
-}
-
-function getRouteResource(routePath: string): string {
-  const firstSegment = routePath.split('/').filter(Boolean)[0];
-
-  return firstSegment ?? 'root';
+  return new Set(configuredFrameworks);
 }
