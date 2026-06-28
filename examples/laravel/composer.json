@@ -1,0 +1,9 @@
+{
+  "name": "routelens/laravel-example",
+  "description": "Laravel example routes for RouteLens.",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "laravel/framework": "^11.0"
+  }
+}
