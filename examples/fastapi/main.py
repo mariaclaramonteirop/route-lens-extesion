@@ -1,11 +1,25 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 
 app = FastAPI()
+usuarios_router = APIRouter(prefix="/usuarios")
 
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@usuarios_router.get("/")
+def listar_usuarios():
+    return []
+
+
+@usuarios_router.get("/{id}")
+def buscar_usuario(id: str):
+    return {"id": id}
+
+
+app.include_router(usuarios_router)
 
 
 @app.get("/clientes")
@@ -16,21 +30,6 @@ def listar_clientes():
 @app.post("/clientes")
 def criar_cliente(cliente: dict):
     return cliente
-
-
-@app.put("/clientes/{id}")
-def atualizar_cliente(id: str, cliente: dict):
-    return {"id": id, **cliente}
-
-
-@app.patch("/clientes/{id}")
-def atualizar_cliente_parcial(id: str, cliente: dict):
-    return {"id": id, **cliente}
-
-
-@app.delete("/clientes/{id}")
-def remover_cliente(id: str):
-    return {"deleted": True, "id": id}
 
 
 @app.get("/pedidos")
