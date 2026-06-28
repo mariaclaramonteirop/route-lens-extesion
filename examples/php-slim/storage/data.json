@@ -30,6 +30,10 @@
             "email": "maria.clara@example.com",
             "role": "admin",
             "example": "value"
+        },
+        {
+            "id": 7,
+            "example": "value"
         }
     ],
     "produtos": [
