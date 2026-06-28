@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Route } from '../types/Route';
 import { RouteScanner } from './RouteScanner';
-import { getRouteResource } from './routeUtils';
+import { getRouteResource, joinRoutePaths } from './routeUtils';
 
 const IGNORED_DIRECTORIES = '**/{bin,obj,node_modules,dist,build,out,coverage,.git}/**';
 const ASP_NET_METHODS: Record<string, string> = {
@@ -10,6 +10,13 @@ const ASP_NET_METHODS: Record<string, string> = {
   MapPut: 'PUT',
   MapPatch: 'PATCH',
   MapDelete: 'DELETE',
+};
+const ASP_NET_ATTRIBUTES: Record<string, string> = {
+  HttpGet: 'GET',
+  HttpPost: 'POST',
+  HttpPut: 'PUT',
+  HttpPatch: 'PATCH',
+  HttpDelete: 'DELETE',
 };
 
 export class AspNetCoreScanner implements RouteScanner {
@@ -22,10 +29,13 @@ export class AspNetCoreScanner implements RouteScanner {
 
     for (const file of files) {
       const document = await vscode.workspace.openTextDocument(file);
+      const controllerPrefix = findAspNetControllerPrefix(document);
 
       for (let index = 0; index < document.lineCount; index += 1) {
         const line = document.lineAt(index).text;
-        const route = parseAspNetCoreRouteLine(line, file.fsPath, index + 1, this.label);
+        const route =
+          parseAspNetMinimalApiRouteLine(line, file.fsPath, index + 1, this.label) ??
+          parseAspNetControllerRouteLine(line, file.fsPath, index + 1, this.label, controllerPrefix);
 
         if (route) {
           routes.push(route);
@@ -37,7 +47,20 @@ export class AspNetCoreScanner implements RouteScanner {
   }
 }
 
-function parseAspNetCoreRouteLine(
+function findAspNetControllerPrefix(document: vscode.TextDocument): string {
+  for (let index = 0; index < document.lineCount; index += 1) {
+    const line = document.lineAt(index).text;
+    const match = line.match(/^\s*\[Route\(\s*"([^"]+)"\s*\)\]/);
+
+    if (match) {
+      return match[1].replace('[controller]', '');
+    }
+  }
+
+  return '/';
+}
+
+function parseAspNetMinimalApiRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,
@@ -59,6 +82,35 @@ function parseAspNetCoreRouteLine(
     filePath,
     line: lineNumber,
     resource: getRouteResource(match[2]),
+    framework,
+    language: 'C#',
+  };
+}
+
+function parseAspNetControllerRouteLine(
+  line: string,
+  filePath: string,
+  lineNumber: number,
+  framework: string,
+  controllerPrefix: string
+): Route | null {
+  const attributeNames = Object.keys(ASP_NET_ATTRIBUTES).join('|');
+  const pattern = new RegExp(`^\\s*\\[(${attributeNames})(?:\\(\\s*"([^"]*)"\\s*\\))?\\]`, 'i');
+  const match = line.match(pattern);
+
+  if (!match) {
+    return null;
+  }
+
+  const method = ASP_NET_ATTRIBUTES[match[1]];
+  const path = joinRoutePaths(controllerPrefix, match[2] ?? '/');
+
+  return {
+    method,
+    path,
+    filePath,
+    line: lineNumber,
+    resource: getRouteResource(path),
     framework,
     language: 'C#',
   };

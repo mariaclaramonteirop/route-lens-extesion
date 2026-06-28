@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Route } from '../types/Route';
 import { RouteScanner } from './RouteScanner';
-import { getRouteResource, HTTP_METHODS } from './routeUtils';
+import { getRouteResource, HTTP_METHODS, joinRoutePaths } from './routeUtils';
 
 const IGNORED_DIRECTORIES = '**/{.venv,venv,__pycache__,node_modules,dist,build,out,coverage,.git}/**';
 
@@ -15,10 +15,11 @@ export class FastApiScanner implements RouteScanner {
 
     for (const file of files) {
       const document = await vscode.workspace.openTextDocument(file);
+      const routerPrefixes = findFastApiRouterPrefixes(document);
 
       for (let index = 0; index < document.lineCount; index += 1) {
         const line = document.lineAt(index).text;
-        const route = parseFastApiRouteLine(line, file.fsPath, index + 1, this.label);
+        const route = parseFastApiRouteLine(line, file.fsPath, index + 1, this.label, routerPrefixes);
 
         if (route) {
           routes.push(route);
@@ -30,26 +31,48 @@ export class FastApiScanner implements RouteScanner {
   }
 }
 
+function findFastApiRouterPrefixes(document: vscode.TextDocument): Map<string, string> {
+  const prefixes = new Map<string, string>();
+
+  for (let index = 0; index < document.lineCount; index += 1) {
+    const line = document.lineAt(index).text;
+    const match = line.match(/\b([A-Za-z_]\w*)\s*=\s*APIRouter\(([^)]*)\)/);
+
+    if (!match) {
+      continue;
+    }
+
+    const prefixMatch = match[2].match(/\bprefix\s*=\s*['"]([^'"]+)['"]/);
+    prefixes.set(match[1], prefixMatch?.[1] ?? '/');
+  }
+
+  return prefixes;
+}
+
 function parseFastApiRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,
-  framework: string
+  framework: string,
+  routerPrefixes: Map<string, string>
 ): Route | null {
   const methods = HTTP_METHODS.join('|');
-  const pattern = new RegExp(`^\\s*@(?:app|router)\\.(${methods})\\(\\s*['"\`]([^'"\`]+)['"\`]`, 'i');
+  const pattern = new RegExp(`^\\s*@([A-Za-z_]\\w*)\\.(${methods})\\(\\s*['"\`]([^'"\`]+)['"\`]`, 'i');
   const match = line.match(pattern);
 
   if (!match) {
     return null;
   }
 
+  const routePrefix = match[1] === 'app' ? '/' : routerPrefixes.get(match[1]) ?? '/';
+  const path = joinRoutePaths(routePrefix, match[3]);
+
   return {
-    method: match[1].toUpperCase(),
-    path: match[2],
+    method: match[2].toUpperCase(),
+    path,
     filePath,
     line: lineNumber,
-    resource: getRouteResource(match[2]),
+    resource: getRouteResource(path),
     framework,
     language: 'Python',
   };

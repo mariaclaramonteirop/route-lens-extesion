@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { Route } from '../types/Route';
 import { RouteScanner } from './RouteScanner';
-import { getRouteResource } from './routeUtils';
+import { getRouteResource, joinRoutePaths } from './routeUtils';
 
 const IGNORED_DIRECTORIES = '**/{target,build,out,node_modules,.git}/**';
 const SPRING_METHODS: Record<string, string> = {
@@ -22,10 +22,11 @@ export class SpringBootScanner implements RouteScanner {
 
     for (const file of files) {
       const document = await vscode.workspace.openTextDocument(file);
+      const controllerPrefix = findSpringControllerPrefix(document);
 
       for (let index = 0; index < document.lineCount; index += 1) {
         const line = document.lineAt(index).text;
-        const route = parseSpringRouteLine(line, file.fsPath, index + 1, this.label);
+        const route = parseSpringRouteLine(line, file.fsPath, index + 1, this.label, controllerPrefix);
 
         if (route) {
           routes.push(route);
@@ -37,11 +38,25 @@ export class SpringBootScanner implements RouteScanner {
   }
 }
 
+function findSpringControllerPrefix(document: vscode.TextDocument): string {
+  for (let index = 0; index < document.lineCount; index += 1) {
+    const line = document.lineAt(index).text;
+    const match = line.match(/^\s*@RequestMapping\(\s*(?:value\s*=\s*)?["']([^"']+)["']/);
+
+    if (match) {
+      return match[1];
+    }
+  }
+
+  return '/';
+}
+
 function parseSpringRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,
-  framework: string
+  framework: string,
+  controllerPrefix: string
 ): Route | null {
   const mappingNames = Object.keys(SPRING_METHODS).join('|');
   const pattern = new RegExp(`^\\s*@(${mappingNames})\\(\\s*(?:value\\s*=\\s*)?['"]([^'"]+)['"]`, 'i');
@@ -52,13 +67,14 @@ function parseSpringRouteLine(
   }
 
   const method = SPRING_METHODS[match[1]];
+  const path = joinRoutePaths(controllerPrefix, match[2]);
 
   return {
     method,
-    path: match[2],
+    path,
     filePath,
     line: lineNumber,
-    resource: getRouteResource(match[2]),
+    resource: getRouteResource(path),
     framework,
     language: 'Java',
   };
