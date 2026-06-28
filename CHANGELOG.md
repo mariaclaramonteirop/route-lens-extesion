@@ -14,6 +14,8 @@ Todas as alterações relevantes deste projeto serão documentadas aqui.
 - FastAPI agora combina prefixos simples declarados em `APIRouter(prefix='...')`.
 - Spring Boot agora combina prefixos de controller declarados com `@RequestMapping`.
 - ASP.NET Core agora detecta rotas de controllers com atributos `[HttpGet]`, `[HttpPost]`, `[HttpPut]`, `[HttpPatch]` e `[HttpDelete]`.
+- Novo comando `RouteLens: Detect Frameworks` para identificar frameworks suportados no workspace.
+- Detecção por manifestos e arquivos característicos para Slim, Laravel, Express.js, FastAPI, Spring Boot e ASP.NET Core.
 - Linguagem e framework agora aparecem na árvore, tooltips e arquivos gerados.
 - Configuração `routelens.enabledFrameworks` para habilitar ou desabilitar scanners.
 - Exemplo Express.js adicionado em `examples/express`.

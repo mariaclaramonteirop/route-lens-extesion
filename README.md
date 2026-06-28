@@ -241,6 +241,7 @@ Ações disponíveis:
 * Use o menu de contexto para copiar método + rota;
 * Use **Copy Full URL** para copiar a rota com a base URL configurada;
 * Use o botão de refresh do painel para executar a detecção novamente;
+* Use **Detect Frameworks** para identificar frameworks suportados no workspace;
 * Use o botão **Generate API_ROUTES.md** para documentar as rotas encontradas;
 * Use o botão **Generate requests.http** para criar requisições executáveis;
 * Use **Generate openapi.yaml** para exportar uma especificação OpenAPI;
@@ -306,6 +307,12 @@ Frameworks disponíveis nesta etapa:
 * `fastapi`
 * `spring-boot`
 * `aspnet-core`
+
+O comando **RouteLens: Detect Frameworks** identifica frameworks suportados a partir de
+arquivos de dependência e estrutura do projeto, como `composer.json`, `package.json`,
+`pom.xml`, `build.gradle`, `requirements.txt`, `pyproject.toml`, `Pipfile`, `.csproj`
+e pastas `routes/` do Laravel. A configuração `routelens.enabledFrameworks` continua
+permitindo controle manual dos scanners ativos.
 
 ---
 
@@ -480,7 +487,9 @@ export interface Route {
 * [x] Permitir habilitar e desabilitar scanners por configuração;
 * [x] Melhorar tratamento de rotas Express com prefixos de `router`;
 * [x] Melhorar tratamento de grupos/prefixos em FastAPI, Spring Boot e ASP.NET Core;
-* [ ] Detectar automaticamente o framework do projeto por arquivos de dependência.
+* [x] Detectar automaticamente o framework do projeto por arquivos de dependência;
+* [x] Sugerir scanners compatíveis com o workspace pelo comando **Detect Frameworks**;
+* [x] Permitir configuração manual dos scanners ativos.
 
 ### Versão 1.0
 
