@@ -478,8 +478,9 @@ export interface Route {
 * [x] Adicionar scanner inicial para Spring Boot;
 * [x] Adicionar scanner inicial para ASP.NET Core;
 * [x] Permitir habilitar e desabilitar scanners por configuração;
-* [ ] Melhorar tratamento de rotas Express com prefixos de `router`;
-* [ ] Melhorar tratamento de grupos/prefixos de rotas por framework.
+* [x] Melhorar tratamento de rotas Express com prefixos de `router`;
+* [x] Melhorar tratamento de grupos/prefixos em FastAPI, Spring Boot e ASP.NET Core;
+* [ ] Detectar automaticamente o framework do projeto por arquivos de dependência.
 
 ### Versão 1.0
 

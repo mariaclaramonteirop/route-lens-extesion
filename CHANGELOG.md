@@ -10,6 +10,10 @@ Todas as alterações relevantes deste projeto serão documentadas aqui.
 - Scanner inicial para Express.js com suporte a `app` e `router`.
 - Scanner inicial para Laravel com suporte a `Route::get`, `Route::post`, `Route::put`, `Route::patch` e `Route::delete`.
 - Scanners iniciais para FastAPI, Spring Boot e ASP.NET Core.
+- Express.js agora combina prefixos simples de `app.use('/prefixo', router)` com rotas declaradas em `router`.
+- FastAPI agora combina prefixos simples declarados em `APIRouter(prefix='...')`.
+- Spring Boot agora combina prefixos de controller declarados com `@RequestMapping`.
+- ASP.NET Core agora detecta rotas de controllers com atributos `[HttpGet]`, `[HttpPost]`, `[HttpPut]`, `[HttpPatch]` e `[HttpDelete]`.
 - Linguagem e framework agora aparecem na árvore, tooltips e arquivos gerados.
 - Configuração `routelens.enabledFrameworks` para habilitar ou desabilitar scanners.
 - Exemplo Express.js adicionado em `examples/express`.
