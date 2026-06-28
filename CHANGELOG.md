@@ -2,7 +2,7 @@
 
 Todas as alterações relevantes deste projeto serão documentadas aqui.
 
-## Unreleased
+## 0.4.0
 
 - Início da V4 Multi-framework.
 - Arquitetura de scanners separados por framework.
