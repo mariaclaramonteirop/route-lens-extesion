@@ -44,7 +44,7 @@ public class ApiController {
         return List.of();
     }
 
-    @PostMapping("/pedidos")
+     @PostMapping("/pedidos")
     public Map<String, Object> criarPedido(@RequestBody Map<String, Object> pedido) {
         return pedido;
     }
