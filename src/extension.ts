@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { detectFrameworks } from './frameworkDetector';
 import { generateHttpRequests } from './httpGenerator';
 import { generateMarkdown } from './markdownGenerator';
 import { generateOpenApiYaml } from './openApiGenerator';
@@ -23,6 +24,20 @@ export function activate(context: vscode.ExtensionContext) {
     }),
     vscode.commands.registerCommand('routelens.refreshRoutes', () => {
       routeTreeProvider.refresh();
+    }),
+    vscode.commands.registerCommand('routelens.detectFrameworks', async () => {
+      const detectedFrameworks = await detectFrameworks();
+
+      if (detectedFrameworks.length === 0) {
+        vscode.window.showWarningMessage('RouteLens did not detect a supported API framework in this workspace.');
+        return;
+      }
+
+      const labels = detectedFrameworks
+        .map((framework) => `${framework.label} (${framework.evidence})`)
+        .join(', ');
+
+      vscode.window.showInformationMessage(`RouteLens detected: ${labels}`);
     }),
     vscode.commands.registerCommand('routelens.openRoute', async (item) => {
       const route = item?.route;

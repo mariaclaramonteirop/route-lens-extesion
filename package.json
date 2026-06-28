@@ -93,6 +93,10 @@
         "title": "RouteLens: Refresh Routes"
       },
       {
+        "command": "routelens.detectFrameworks",
+        "title": "RouteLens: Detect Frameworks"
+      },
+      {
         "command": "routelens.openRoute",
         "title": "RouteLens: Open Route"
       },
@@ -155,6 +159,11 @@
       "view/title": [
         {
           "command": "routelens.refreshRoutes",
+          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "routelens.detectFrameworks",
           "when": "view == routelens.routes || view == routelens.routesExplorer",
           "group": "navigation"
         },
