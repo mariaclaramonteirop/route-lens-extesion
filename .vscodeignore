@@ -2,6 +2,7 @@
 .vscode/**
 examples/**
 src/**
+tests/**
 .gitignore
 checklist_version.md
 doc.md
