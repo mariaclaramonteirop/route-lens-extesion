@@ -51,7 +51,7 @@ function findSpringControllerPrefix(document: vscode.TextDocument): string {
   return '/';
 }
 
-function parseSpringRouteLine(
+export function parseSpringRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,

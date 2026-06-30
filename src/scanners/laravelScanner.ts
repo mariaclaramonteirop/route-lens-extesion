@@ -30,7 +30,7 @@ export class LaravelScanner implements RouteScanner {
   }
 }
 
-function parseLaravelRouteLine(
+export function parseLaravelRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,

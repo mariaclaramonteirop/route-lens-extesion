@@ -113,7 +113,7 @@ function resolveImportedScriptPath(fromFile: vscode.Uri, importPath: string): st
   return pathWithExtension;
 }
 
-function parseExpressRouteLine(
+export function parseExpressRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,

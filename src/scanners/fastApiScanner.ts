@@ -49,7 +49,7 @@ function findFastApiRouterPrefixes(document: vscode.TextDocument): Map<string, s
   return prefixes;
 }
 
-function parseFastApiRouteLine(
+export function parseFastApiRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,

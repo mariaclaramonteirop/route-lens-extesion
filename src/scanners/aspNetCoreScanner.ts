@@ -60,7 +60,7 @@ function findAspNetControllerPrefix(document: vscode.TextDocument): string {
   return '/';
 }
 
-function parseAspNetMinimalApiRouteLine(
+export function parseAspNetMinimalApiRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,
@@ -87,7 +87,7 @@ function parseAspNetMinimalApiRouteLine(
   };
 }
 
-function parseAspNetControllerRouteLine(
+export function parseAspNetControllerRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,

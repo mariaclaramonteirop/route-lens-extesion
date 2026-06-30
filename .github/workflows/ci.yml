@@ -23,8 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Compile
-        run: npm run compile
+      - name: Test
+        run: npm test
 
   docker-example:
     name: Validate Docker example

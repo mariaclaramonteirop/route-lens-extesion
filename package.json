@@ -192,6 +192,7 @@
   },
   "scripts": {
     "compile": "tsc -p ./",
+    "test": "npm run compile && node tests/scanners.test.js",
     "watch": "tsc -watch -p ./",
     "vscode:prepublish": "npm run compile"
   },

@@ -28,7 +28,7 @@ export class SlimScanner implements RouteScanner {
   }
 }
 
-function parseSlimRouteLine(
+export function parseSlimRouteLine(
   line: string,
   filePath: string,
   lineNumber: number,
