@@ -2,6 +2,13 @@
 
 Todas as alterações relevantes deste projeto serão documentadas aqui.
 
+## Unreleased
+
+- Testes automatizados para parsers dos scanners multi-framework.
+- CI atualizado para executar `npm test`.
+- Script `npm run package` com `vsce package` para gerar o `.vsix`.
+- Ajuste do pacote para excluir testes do `.vsix`.
+
 ## 0.4.0
 
 - Início da V4 Multi-framework.
