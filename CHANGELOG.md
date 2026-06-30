@@ -2,7 +2,7 @@
 
 Todas as alterações relevantes deste projeto serão documentadas aqui.
 
-## Unreleased
+## 0.4.1
 
 - Testes automatizados para parsers dos scanners multi-framework.
 - CI atualizado para executar `npm test`.

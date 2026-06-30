@@ -2,7 +2,7 @@
 
 **RouteLens** é uma extensão para Visual Studio Code desenvolvida para ajudar desenvolvedores back-end a visualizar, navegar, copiar e documentar rotas de APIs REST diretamente dentro do editor.
 
-Versão atual: **0.4.0**
+Versão atual: **0.4.1**
 
 A extensão identifica automaticamente rotas declaradas no projeto e as organiza em um painel lateral interativo, facilitando a manutenção e compreensão da estrutura da API.
 
@@ -61,7 +61,7 @@ Suporte atual:
 
 ## Funcionalidades
 
-Na versão `0.4.0`, o RouteLens oferece:
+Na versão `0.4.1`, o RouteLens oferece:
 
 * Detecção automática de rotas em projetos PHP Slim;
 * Identificação dos métodos HTTP:
@@ -204,7 +204,7 @@ npm run package
 O pacote é gerado na raiz do projeto no formato:
 
 ```txt
-routelens-0.4.0.vsix
+routelens-0.4.1.vsix
 ```
 
 Para testar no VS Code:
@@ -582,13 +582,13 @@ Este projeto é voltado para:
 
 ## Status do Projeto
 
-Versão **0.4.0** pronta como V4 Multi-framework.
+Versão **0.4.1** pronta como V4 Multi-framework com melhorias de qualidade.
 
 A **V4 Multi-framework** inclui arquitetura de scanners separados e suporte inicial a Express.js, Laravel, FastAPI, Spring Boot e ASP.NET Core.
 
 Já é possível detectar e organizar rotas por arquivo e recurso, navegar até a declaração, copiar URLs completas e gerar documentação em `API_ROUTES.md`.
 
-Após a tag `v0.4.0`, o projeto recebeu melhorias de qualidade em desenvolvimento para a próxima versão: testes automatizados dos parsers, CI com `npm test` e empacotamento validado com `npm run package`.
+A versão `0.4.1` adiciona testes automatizados dos parsers, CI com `npm test` e empacotamento validado com `npm run package`.
 
 ---
 

@@ -2,7 +2,7 @@
   "name": "routelens",
   "displayName": "RouteLens",
   "description": "Visualize, navegue e documente rotas de APIs diretamente no VS Code.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "publisher": "mariaclaramonteirop",
   "license": "MIT",
   "repository": {
