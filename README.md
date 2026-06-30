@@ -28,16 +28,13 @@ Com ele, o desenvolvedor pode:
 
 O objetivo do **RouteLens** é facilitar a vida de desenvolvedores back-end durante o desenvolvimento, manutenção e documentação de APIs REST.
 
-A extensão atualmente oferece suporte a projetos desenvolvidos com **PHP Slim**, framework utilizado em APIs simples, organizadas e performáticas.
+A extensão começou com suporte a **PHP Slim** e, desde a versão 0.4.0, evoluiu para uma arquitetura multi-framework com scanners dedicados para diferentes ecossistemas de APIs REST.
 
-Futuramente, o projeto poderá evoluir para oferecer suporte a outros frameworks e ecossistemas de APIs REST, como Express.js, Laravel, Spring Boot, FastAPI e ASP.NET Core.
+### Frameworks suportados
 
-### Frameworks planejados
+Suporte atual:
 
-O suporte estável atual é focado em **PHP Slim**. A V4 foi iniciada com uma arquitetura multi-scanner e suporte inicial a novos frameworks.
-
-**Em desenvolvimento**
-
+* PHP Slim;
 * Express.js;
 * Laravel;
 * Spring Boot;
@@ -84,7 +81,7 @@ Na versão `0.4.0`, o RouteLens oferece:
 * Geração automática do arquivo `API_ROUTES.md`;
 * Organização visual dos endpoints encontrados.
 
-Na V4 em desenvolvimento, o projeto iniciou:
+Na V4 Multi-framework, o projeto inclui:
 
 * Arquitetura de scanners separados por framework;
 * Scanner dedicado para PHP Slim;
@@ -146,7 +143,10 @@ O projeto é desenvolvido utilizando:
 * Node.js;
 * VS Code Extension API;
 * Regex para detecção inicial das rotas;
-* Markdown para geração de documentação.
+* Markdown para geração de documentação;
+* Node.js `assert` para testes automatizados dos parsers;
+* `@vscode/vsce` para empacotamento da extensão em `.vsix`;
+* GitHub Actions para validação contínua.
 
 ---
 
@@ -187,6 +187,26 @@ Compile a extensão:
 npm run compile
 ```
 
+Execute os testes automatizados:
+
+```bash
+npm test
+```
+
+O comando `npm test` compila o projeto e executa os testes dos parsers dos scanners multi-framework.
+
+Gere um pacote instalável `.vsix`:
+
+```bash
+npm run package
+```
+
+O pacote é gerado na raiz do projeto no formato:
+
+```txt
+routelens-0.4.0.vsix
+```
+
 Para testar no VS Code:
 
 1. Abra este projeto no VS Code;
@@ -202,6 +222,18 @@ Run RouteLens Extension - Empty PHP
 4. Pressione `F5`.
 
 A configuração **PHP Slim** abre apenas o projeto PHP Slim de exemplo. A configuração **Multi-framework Examples** abre a pasta `examples/` inteira, permitindo validar os scanners disponíveis juntos. A configuração **Empty PHP** abre um projeto sem rotas para validar o estado vazio do painel.
+
+---
+
+## Qualidade e CI
+
+O projeto possui validações automatizadas para reduzir regressões nos scanners:
+
+* `npm run compile` valida a compilação TypeScript;
+* `npm test` valida parsers de PHP Slim, Laravel, Express.js, FastAPI, Spring Boot e ASP.NET Core;
+* `npm run package` gera e valida o pacote `.vsix`;
+* o GitHub Actions executa `npm test` em pushes para `main` e em pull requests;
+* o CI também valida o arquivo `docker-compose.yml` do exemplo PHP Slim.
 
 ---
 
@@ -293,7 +325,7 @@ Ela pode ser alterada nas configurações do VS Code, pesquisando por
 
 A configuração `routelens.enabledFrameworks` define quais scanners serão usados.
 
-Valor padrão da V4 em desenvolvimento:
+Valor padrão:
 
 ```json
 ["php-slim", "laravel", "express", "fastapi", "spring-boot", "aspnet-core"]
@@ -491,6 +523,14 @@ export interface Route {
 * [x] Sugerir scanners compatíveis com o workspace pelo comando **Detect Frameworks**;
 * [x] Permitir configuração manual dos scanners ativos.
 
+### Versão 0.4.1 — Qualidade e empacotamento
+
+* [x] Criar testes automatizados para parsers dos scanners;
+* [x] Atualizar CI para executar `npm test`;
+* [x] Adicionar script `npm run package`;
+* [x] Validar geração do pacote `.vsix`;
+* [x] Excluir testes do pacote final da extensão.
+
 ### Versão 1.0
 
 * [ ] Exportação em formato OpenAPI;
@@ -547,6 +587,8 @@ Versão **0.4.0** pronta como V4 Multi-framework.
 A **V4 Multi-framework** inclui arquitetura de scanners separados e suporte inicial a Express.js, Laravel, FastAPI, Spring Boot e ASP.NET Core.
 
 Já é possível detectar e organizar rotas por arquivo e recurso, navegar até a declaração, copiar URLs completas e gerar documentação em `API_ROUTES.md`.
+
+Após a tag `v0.4.0`, o projeto recebeu melhorias de qualidade em desenvolvimento para a próxima versão: testes automatizados dos parsers, CI com `npm test` e empacotamento validado com `npm run package`.
 
 ---
 
