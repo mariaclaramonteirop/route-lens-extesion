@@ -620,7 +620,7 @@ Este projeto é distribuído sob a licença MIT. Consulte o arquivo [LICENSE](LI
 ## Contribuidores
 
 <a href="https://github.com/mariaclaramonteirop/route-lens-extesion/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=mariaclaramonteirop/route-lens-extesion" alt="Contributors" width="1000" />
+  <img src="https://contrib.rocks/image?repo=mariaclaramonteirop/route-lens-extesion" alt="Contributors" width="720" />
 </a>
 
 ---
