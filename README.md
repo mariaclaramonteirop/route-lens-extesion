@@ -4,10 +4,10 @@
 
 # RouteLens
 
-[![Follow](https://img.shields.io/github/followers/mariaclaramonteirop?label=follow&style=flat-square)](https://github.com/mariaclaramonteirop)
+[![@mariaclaramonteirop](https://img.shields.io/badge/GitHub-@mariaclaramonteirop-181717?style=flat-square&logo=github)](https://github.com/mariaclaramonteirop)
+[![Followers](https://img.shields.io/github/followers/mariaclaramonteirop?label=followers&style=flat-square)](https://github.com/mariaclaramonteirop?tab=followers)
 [![Issues](https://img.shields.io/github/issues/mariaclaramonteirop/route-lens-extesion?style=flat-square)](https://github.com/mariaclaramonteirop/route-lens-extesion/issues)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/mariaclaramonteirop/route-lens-extesion?style=flat-square)](https://github.com/mariaclaramonteirop/route-lens-extesion/commits/main)
-[![Last commit](https://img.shields.io/github/last-commit/mariaclaramonteirop/route-lens-extesion?style=flat-square)](https://github.com/mariaclaramonteirop/route-lens-extesion/commits/main)
+[![Commits](https://img.shields.io/github/commit-activity/m/mariaclaramonteirop/route-lens-extesion?style=flat-square)](https://github.com/mariaclaramonteirop/route-lens-extesion/commits/main)
 
 **RouteLens** é uma extensão para Visual Studio Code desenvolvida para ajudar desenvolvedores back-end a visualizar, navegar, copiar e documentar rotas de APIs REST diretamente dentro do editor.
 
@@ -620,7 +620,7 @@ Este projeto é distribuído sob a licença MIT. Consulte o arquivo [LICENSE](LI
 ## Contribuidores
 
 <a href="https://github.com/mariaclaramonteirop/route-lens-extesion/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=mariaclaramonteirop/route-lens-extesion" alt="Contributors" width="720" />
+  <img src="https://contrib.rocks/image?repo=mariaclaramonteirop/route-lens-extesion" alt="Contributors" width="180" />
 </a>
 
 ---
