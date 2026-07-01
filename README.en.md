@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="resources/routelens-logo.png" alt="RouteLens logo" width="240" />
+<img src="resources/routelens-logo.png" alt="RouteLens logo" width="160" />
 
 # RouteLens
 
@@ -20,6 +20,20 @@
 </a>
 
 </div>
+
+## Developers
+
+<table>
+  <tr>
+    <td width="72" valign="top">
+      <img src="https://github.com/mariaclaramonteirop.png?size=128" width="72" height="72" alt="Maria Clara Monteiro Pacheco" />
+    </td>
+    <td valign="top">
+      <strong>Maria Clara Monteiro Pacheco</strong><br />
+      Lead developer and maintainer
+    </td>
+  </tr>
+</table>
 
 **RouteLens** is a Visual Studio Code extension that helps back-end developers visualize, navigate, copy, and document REST API routes directly inside the editor.
 
@@ -620,4 +634,3 @@ This project is distributed under the MIT License. See [LICENSE](LICENSE).
 ## Project Tagline
 
 > Visualize, navigate, and document API routes directly in VS Code.
-

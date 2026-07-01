@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="resources/routelens-logo.png" alt="RouteLens logo" width="240" />
+<img src="resources/routelens-logo.png" alt="RouteLens logo" width="160" />
 
 # RouteLens
 
@@ -18,6 +18,20 @@ Versão atual: **0.4.1**
 A extensão identifica automaticamente rotas declaradas no projeto e as organiza em um painel lateral interativo, facilitando a manutenção e compreensão da estrutura da API.
 
 </div>
+
+## Developers
+
+<table>
+  <tr>
+    <td width="72" valign="top">
+      <img src="https://github.com/mariaclaramonteirop.png?size=128" width="72" height="72" alt="Maria Clara Monteiro Pacheco" />
+    </td>
+    <td valign="top">
+      <strong>Maria Clara Monteiro Pacheco</strong><br />
+      Desenvolvedora principal e mantenedora
+    </td>
+  </tr>
+</table>
 
 ---
 
