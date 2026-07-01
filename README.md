@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="resources/routelens-logo.png" alt="RouteLens logo" width="240" />
+<img src="resources/routelens-logo.png" alt="RouteLens logo" width="160" />
 
 # RouteLens
 
@@ -22,6 +22,20 @@
 </div>
 
 RouteLens is a VS Code extension for visualizing, navigating, copying, and documenting API routes inside the editor.
+
+## Developers
+
+<table>
+  <tr>
+    <td width="72" valign="top">
+      <img src="https://github.com/mariaclaramonteirop.png?size=128" width="72" height="72" alt="Maria Clara Monteiro Pacheco" />
+    </td>
+    <td valign="top">
+      <strong>Maria Clara Monteiro Pacheco</strong><br />
+      Lead developer and maintainer
+    </td>
+  </tr>
+</table>
 
 ## What It Does
 
@@ -46,4 +60,3 @@ RouteLens is a VS Code extension for visualizing, navigating, copying, and docum
 - [English README](README.en.md)
 - [Changelog](CHANGELOG.md)
 - [License](LICENSE)
-
