@@ -21,15 +21,15 @@
 
 </div>
 
-RouteLens is a VS Code extension for visualizing, navigating, copying, and documenting API routes inside the editor.
+RouteLens is a Visual Studio Code extension for finding API routes in back-end projects and turning them into something easier to navigate and document.
 
-## What It Does
+## Highlights
 
-- detects routes across supported back-end frameworks
-- shows routes in a side panel and Explorer view
-- opens the source file and line for each route
-- copies route, method + route, or full URL
-- generates `API_ROUTES.md`, `requests.http`, and `openapi.yaml`
+- route detection for supported frameworks
+- side panel and Explorer views
+- jump to the source file and line
+- copy route, method + route, or full URL
+- generate `API_ROUTES.md`, `requests.http`, and `openapi.yaml`
 
 ## Supported Frameworks
 
@@ -40,7 +40,16 @@ RouteLens is a VS Code extension for visualizing, navigating, copying, and docum
 - Spring Boot
 - ASP.NET Core
 
-## Docs
+## Quick Start
+
+```bash
+npm install
+npm run compile
+npm test
+npm run package
+```
+
+## Documentation
 
 - [Portuguese README](README.pt-BR.md)
 - [English README](README.en.md)
