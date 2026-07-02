@@ -40,7 +40,7 @@ RouteLens is a VS Code extension for visualizing, navigating, copying, and docum
 ## What It Does
 
 - detects routes across supported back-end frameworks
-- shows routes in a side panel and Explorer view
+- shows routes in the Activity Bar side panel
 - opens the source file and line for each route
 - copies route, method + route, or full URL
 - generates `API_ROUTES.md`, `requests.http`, and `openapi.yaml`

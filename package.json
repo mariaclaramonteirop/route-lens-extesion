@@ -20,8 +20,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:routelens.routes",
-    "onView:routelens.routesExplorer"
+    "onView:routelens.routes"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -35,13 +34,6 @@
       ]
     },
     "views": {
-      "explorer": [
-        {
-          "id": "routelens.routesExplorer",
-          "name": "Routes",
-          "when": "workspaceFolderCount > 0"
-        }
-      ],
       "routelens": [
         {
           "id": "routelens.routes",
@@ -159,32 +151,32 @@
       "view/title": [
         {
           "command": "routelens.refreshRoutes",
-          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "when": "view == routelens.routes",
           "group": "navigation"
         },
         {
           "command": "routelens.detectFrameworks",
-          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "when": "view == routelens.routes",
           "group": "navigation"
         },
         {
           "command": "routelens.generateApiMarkdown",
-          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "when": "view == routelens.routes",
           "group": "navigation"
         },
         {
           "command": "routelens.generateHttpRequests",
-          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "when": "view == routelens.routes",
           "group": "navigation"
         },
         {
           "command": "routelens.generateOpenApi",
-          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "when": "view == routelens.routes",
           "group": "navigation"
         },
         {
           "command": "routelens.openSwaggerPreview",
-          "when": "view == routelens.routes || view == routelens.routesExplorer",
+          "when": "view == routelens.routes",
           "group": "navigation"
         }
       ]

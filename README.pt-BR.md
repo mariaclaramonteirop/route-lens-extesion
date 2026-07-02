@@ -266,7 +266,7 @@ O projeto possui validações automatizadas para reduzir regressões nos scanner
 
 ## Como Usar
 
-No painel Explorer do VS Code e na barra de atividades do VS Code, a extensão exibe a seção **Routes**.
+Na barra de atividades do VS Code, a extensão exibe a seção **Routes**.
 
 O RouteLens também aparece como um ícone próprio na barra de atividades do VS Code.
 
@@ -423,6 +423,8 @@ schemas, autenticação, parâmetros de query ou códigos de resposta reais.
 
 O projeto inclui um ambiente Docker opcional para testar a detecção de rotas PHP Slim com uma API de exemplo.
 
+Esse exemplo PHP Slim usa persistência em `examples/php-slim/storage/data.json`. Os demais exemplos do repositório funcionam como amostras de rotas e respostas em memória, sem compartilhar essa mesma base JSON.
+
 Para subir o exemplo:
 
 ```bash
@@ -472,6 +474,8 @@ Esses exemplos usam recursos comuns em APIs comerciais:
 * produtos;
 * cores;
 * categorias.
+
+Somente o exemplo PHP Slim persiste dados em `data.json`. Os demais exemplos servem para validação de scanners e demonstração de rotas.
 
 ---
 

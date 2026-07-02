@@ -6,32 +6,47 @@ import { buildRouteUrl } from './urlBuilder';
 
 const METHODS_WITH_BODY = new Set(['POST', 'PUT', 'PATCH']);
 
+let previewPanel: vscode.WebviewPanel | undefined;
+let currentBaseUrl = '';
+
 interface ExecuteRequestMessage {
   type: 'executeRequest';
   id: string;
   method: string;
   path: string;
+  baseUrl: string;
   parameters: Record<string, string>;
   body?: string;
 }
 
 export function openSwaggerPreview(routes: Route[], baseUrl: string): void {
-  const panel = vscode.window.createWebviewPanel(
+  currentBaseUrl = baseUrl;
+
+  if (previewPanel) {
+    previewPanel.webview.html = createPreviewHtml(routes, baseUrl);
+    previewPanel.reveal(vscode.ViewColumn.One);
+    return;
+  }
+
+  previewPanel = vscode.window.createWebviewPanel(
     'routelens.swaggerPreview',
     'RouteLens API Preview',
     vscode.ViewColumn.One,
     { enableScripts: true }
   );
 
-  panel.webview.html = createPreviewHtml(routes, baseUrl);
-  panel.webview.onDidReceiveMessage(async (message: ExecuteRequestMessage) => {
+  previewPanel.onDidDispose(() => {
+    previewPanel = undefined;
+  });
+
+  previewPanel.webview.onDidReceiveMessage(async (message: ExecuteRequestMessage) => {
     if (message.type !== 'executeRequest') {
       return;
     }
 
     try {
       const requestPath = replacePathParameters(message.path, message.parameters);
-      const url = buildRouteUrl(baseUrl, requestPath);
+      const url = buildRouteUrl(message.baseUrl || currentBaseUrl, requestPath);
       const headers: Record<string, string> = {};
       const options: RequestInit = { method: message.method, headers };
 
@@ -43,7 +58,7 @@ export function openSwaggerPreview(routes: Route[], baseUrl: string): void {
 
       const response = await executeHttpRequest(url, options);
 
-      await panel.webview.postMessage({
+      await previewPanel?.webview.postMessage({
         type: 'requestResult',
         id: message.id,
         status: response.status,
@@ -51,19 +66,26 @@ export function openSwaggerPreview(routes: Route[], baseUrl: string): void {
         body: formatResponseBody(response.body),
       });
     } catch (error) {
-      await panel.webview.postMessage({
+      await previewPanel?.webview.postMessage({
         type: 'requestResult',
         id: message.id,
         error: error instanceof Error ? error.message : String(error),
       });
     }
   });
+
+  previewPanel.webview.html = createPreviewHtml(routes, baseUrl);
 }
 
 function createPreviewHtml(routes: Route[], baseUrl: string): string {
   const nonce = createNonce();
   const previewGroups = createPreviewGroups(routes);
   const serializedGroups = JSON.stringify(previewGroups).replace(/</g, '\\u003c');
+  const frameworkOptions = previewGroups.map((group) => ({
+    value: group.label,
+    label: group.label,
+  }));
+  const serializedFrameworkOptions = JSON.stringify(frameworkOptions).replace(/</g, '\\u003c');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -76,8 +98,13 @@ function createPreviewHtml(routes: Route[], baseUrl: string): string {
     body { font-family: var(--vscode-font-family); color: var(--vscode-foreground); background: var(--vscode-editor-background); margin: 0; }
     header { padding: 24px; border-bottom: 1px solid var(--vscode-panel-border); }
     main { max-width: 1000px; margin: 0 auto; padding: 24px; }
+    .toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+    .toolbar label { font-size: 12px; color: var(--vscode-descriptionForeground); }
+    select { min-width: 220px; padding: 8px 10px; color: var(--vscode-input-foreground); background: var(--vscode-input-background); border: 1px solid var(--vscode-input-border); }
     .base-url { font-family: var(--vscode-editor-font-family); color: var(--vscode-textLink-foreground); }
+    .target-note { margin-top: 6px; font-size: 12px; color: var(--vscode-descriptionForeground); }
     .framework { margin: 28px 0 36px; }
+    .framework.is-hidden { display: none; }
     .file { margin: 20px 0 28px; }
     .resource { margin: 16px 0 24px; }
     .file-title { font-family: var(--vscode-editor-font-family); font-size: 13px; color: var(--vscode-descriptionForeground); }
@@ -100,17 +127,40 @@ function createPreviewHtml(routes: Route[], baseUrl: string): string {
 <body>
   <header>
     <h1>RouteLens API Preview</h1>
-    <div class="base-url">${escapeHtml(baseUrl)}</div>
+    <div class="base-url">Current backend: <input id="base-url-input" type="text" value="${escapeHtml(baseUrl)}" /></div>
+    <div class="target-note" id="target-note">Requests are sent to this URL.</div>
+    <div class="toolbar">
+      <label for="framework-filter">Framework</label>
+      <select id="framework-filter">
+        <option value="all">All frameworks</option>
+      </select>
+    </div>
   </header>
   <main id="app"></main>
   <script nonce="${nonce}">
     const vscode = acquireVsCodeApi();
     const groups = ${serializedGroups};
+    const frameworkOptions = ${serializedFrameworkOptions};
     const app = document.getElementById('app');
+    const frameworkFilter = document.getElementById('framework-filter');
+    const baseUrlInput = document.getElementById('base-url-input');
+    const targetNote = document.getElementById('target-note');
+
+    for (const option of frameworkOptions) {
+      const selectOption = document.createElement('option');
+      selectOption.value = option.value;
+      selectOption.textContent = option.label;
+      frameworkFilter.appendChild(selectOption);
+    }
+
+    function updateTargetNote() {
+      targetNote.textContent = 'Requests are sent to: ' + baseUrlInput.value;
+    }
 
     for (const frameworkGroup of groups) {
       const frameworkSection = document.createElement('section');
       frameworkSection.className = 'framework';
+      frameworkSection.dataset.framework = frameworkGroup.label;
       frameworkSection.innerHTML = '<h2>' + escapeHtml(frameworkGroup.label) + '</h2>';
 
       for (const fileGroup of frameworkGroup.files) {
@@ -150,6 +200,7 @@ function createPreviewHtml(routes: Route[], baseUrl: string): string {
                 id,
                 method: route.method,
                 path: route.path,
+                baseUrl: baseUrlInput.value,
                 parameters: values,
                 body: hasBody ? card.querySelector('textarea').value : undefined
               });
@@ -167,6 +218,20 @@ function createPreviewHtml(routes: Route[], baseUrl: string): string {
 
       app.appendChild(frameworkSection);
     }
+
+    frameworkFilter.addEventListener('change', () => {
+      const selectedFramework = frameworkFilter.value;
+
+      document.querySelectorAll('.framework').forEach(section => {
+        const framework = section.dataset.framework;
+        const shouldHide = selectedFramework !== 'all' && framework !== selectedFramework;
+
+        section.classList.toggle('is-hidden', shouldHide);
+      });
+    });
+
+    baseUrlInput.addEventListener('input', updateTargetNote);
+    updateTargetNote();
 
     window.addEventListener('message', event => {
       const message = event.data;

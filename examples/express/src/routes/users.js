@@ -2,12 +2,18 @@ import { Router } from 'express';
 
 const router = Router();
 
+const usuarios = [
+  { id: 1, nome: 'Camila Rocha', email: 'camila.rocha@example.com', role: 'admin' },
+  { id: 2, nome: 'Bruno Almeida', email: 'bruno.almeida@example.com', role: 'editor' },
+  { id: 3, nome: 'Larissa Nunes', email: 'larissa.nunes@example.com', role: 'viewer' },
+];
+
 router.get('/usuarios', (_request, response) => {
-  response.json([]);
+  response.json(usuarios);
 });
 
 router.post('/usuarios', (request, response) => {
-  response.status(201).json(request.body);
+  response.status(201).json({ id: 4, ...request.body });
 });
 
 router.put('/usuarios/:id', (request, response) => {

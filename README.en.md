@@ -303,7 +303,7 @@ export interface Route {
 
 ## How To Use
 
-In the VS Code Explorer panel and in the Activity Bar, the extension exposes a **Routes** section.
+In the Activity Bar, the extension exposes a **Routes** section.
 
 RouteLens also appears as its own icon in the Activity Bar.
 
@@ -443,6 +443,8 @@ This preview is still an initial prototype. Automatic generation does not yet de
 
 The repository includes an optional Docker setup for testing PHP Slim route detection with an example API.
 
+That PHP Slim example uses persistence in `examples/php-slim/storage/data.json`. The other examples in the repository are route samples and in-memory responses, so they do not share the same JSON store.
+
 To start the example:
 
 ```bash
@@ -492,6 +494,8 @@ These examples use common business entities:
 - products
 - colors
 - categories
+
+Only the PHP Slim example persists data in `data.json`. The other examples are there to validate scanners and demonstrate routes.
 
 ---
 
